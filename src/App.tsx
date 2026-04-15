@@ -5,7 +5,7 @@ import {
   Loader2, CheckCircle2, AlertCircle, Copy, History, 
   Trash2, BookOpen, Download, Share2, ExternalLink,
   ChevronRight, Sparkles, Database, Microscope, Info,
-  Layers, Cpu, BarChart3, HelpCircle
+  Layers, Cpu, BarChart3, HelpCircle, Moon, Sun, Video
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -38,6 +38,27 @@ export default function App() {
   const [history, setHistory] = useState<ScanHistoryItem[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [showHowTo, setShowHowTo] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [videoIndex, setVideoIndex] = useState(0);
+
+  const videos = [
+    "https://cdn.pixabay.com/video/2020/05/25/40134-424930335_large.mp4", // Abstract data/network
+    "https://cdn.pixabay.com/video/2021/04/12/70874-537480562_large.mp4", // Digital brain/AI
+    "https://cdn.pixabay.com/video/2023/10/20/185731-876174624_large.mp4", // Scientific visualization
+    "https://cdn.pixabay.com/video/2019/04/14/22845-331163436_large.mp4", // Neural network nodes
+    "https://cdn.pixabay.com/video/2021/04/12/70871-537480559_large.mp4", // Cybernetic grid
+    "https://cdn.pixabay.com/video/2020/05/25/40132-424930333_large.mp4", // Data stream flow
+    "https://cdn.pixabay.com/video/2022/07/11/123730-728864703_large.mp4"  // Molecular research
+  ];
+
+  // Dark mode effect
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
 
   // Load history from localStorage
   useEffect(() => {
@@ -145,34 +166,119 @@ export default function App() {
 
   return (
     <TooltipProvider>
-      <div className="min-h-screen text-[#1A1A1A] font-sans selection:bg-blue-100">
+      <div className="min-h-screen text-foreground font-sans selection:bg-primary/20 transition-colors duration-300">
         <Toaster position="top-right" />
         
+        {/* 3D Video Background & Effects */}
+        <div className="video-bg-container">
+          <video 
+            key={videos[videoIndex]}
+            autoPlay 
+            muted 
+            loop 
+            playsInline
+            className="w-full h-full object-cover opacity-30 dark:opacity-20 transition-opacity duration-1000"
+          >
+            <source src={videos[videoIndex]} type="video/mp4" />
+          </video>
+          
+          {/* Scanning Line Effect */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <motion.div 
+              animate={{ y: ['0%', '1000%'] }}
+              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              className="w-full h-[2px] bg-gradient-to-r from-transparent via-primary/30 to-transparent blur-[1px]"
+            />
+          </div>
+
+          {/* Floating Particles (Simplified) */}
+          <div className="absolute inset-0 pointer-events-none">
+            {[...Array(15)].map((_, i) => (
+              <motion.div
+                key={i}
+                initial={{ 
+                  x: Math.random() * 100 + '%', 
+                  y: Math.random() * 100 + '%',
+                  opacity: Math.random() * 0.3
+                }}
+                animate={{ 
+                  y: [null, (Math.random() * -20 - 10) + '%'],
+                  opacity: [null, 0]
+                }}
+                transition={{ 
+                  duration: Math.random() * 10 + 10, 
+                  repeat: Infinity, 
+                  ease: "linear",
+                  delay: Math.random() * 10
+                }}
+                className="absolute w-1 h-1 bg-primary/40 rounded-full blur-[1px]"
+              />
+            ))}
+          </div>
+
+          <div className="video-bg-overlay" />
+        </div>
+        
         {/* Header */}
-        <header className="border-b border-gray-200 bg-white/80 backdrop-blur-md sticky top-0 z-50">
+        <header className="border-b border-border bg-background/60 backdrop-blur-md sticky top-0 z-50 transition-colors duration-300">
           <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
             <div className="flex items-center gap-3 group cursor-pointer" onClick={() => window.location.reload()}>
               <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-2 rounded-lg transition-transform group-hover:rotate-12">
                 <Brain className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h1 className="text-lg font-bold tracking-tight leading-none ai-gradient-text">ScholarScan AI</h1>
-                <p className="text-[10px] text-gray-400 font-medium uppercase tracking-widest mt-1">AI Data Mining Engine</p>
+                <h1 className="text-lg font-bold tracking-tight leading-none ai-gradient-text">Data mine AI</h1>
+                <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest mt-1">Advanced Mining Engine</p>
               </div>
             </div>
             
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 md:gap-4">
+              <div className="hidden sm:flex items-center gap-1">
+                <Tooltip>
+                  <TooltipTrigger 
+                    render={
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="h-9 w-9 rounded-xl text-muted-foreground hover:text-primary"
+                        onClick={() => setVideoIndex((prev) => (prev + 1) % videos.length)}
+                      >
+                        <Video className="w-4 h-4" />
+                      </Button>
+                    }
+                  />
+                  <TooltipContent>Switch 3D Background</TooltipContent>
+                </Tooltip>
+
+                <Tooltip>
+                  <TooltipTrigger 
+                    render={
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="h-9 w-9 rounded-xl text-muted-foreground hover:text-primary"
+                        onClick={() => setIsDarkMode(!isDarkMode)}
+                      >
+                        {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                      </Button>
+                    }
+                  />
+                  <TooltipContent>{isDarkMode ? 'Light Mode' : 'Dark Mode'}</TooltipContent>
+                </Tooltip>
+              </div>
+
+              <Separator orientation="vertical" className="h-6 hidden sm:block" />
+
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="text-xs font-bold text-gray-500 hover:text-blue-600"
+                className="text-xs font-bold text-muted-foreground hover:text-primary hidden md:flex"
                 onClick={() => setShowHowTo(!showHowTo)}
               >
                 <HelpCircle className="w-4 h-4 mr-2" /> How it works
               </Button>
-              <Separator orientation="vertical" className="h-6 hidden md:block" />
-              <Badge variant="outline" className="font-mono text-[10px] uppercase tracking-wider opacity-60 border-gray-300">
-                v1.5.0 Mining Edition
+              <Badge variant="outline" className="font-mono text-[10px] uppercase tracking-wider opacity-60 border-border">
+                v1.6.0 Pro
               </Badge>
             </div>
           </div>
@@ -189,22 +295,22 @@ export default function App() {
                 exit={{ height: 0, opacity: 0 }}
                 className="mb-12 overflow-hidden"
               >
-                <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-100 shadow-sm">
+                <Card className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-primary/20 shadow-sm backdrop-blur-sm">
                   <CardHeader>
-                    <CardTitle className="text-blue-900 flex items-center gap-2">
-                      <Info className="w-5 h-5" /> How to use ScholarScan AI
+                    <CardTitle className="text-primary flex items-center gap-2">
+                      <Info className="w-5 h-5" /> How to use Data mine AI
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {[
-                      { title: '1. Upload PDF', desc: 'Drag and drop your research paper. Our system extracts the raw text directly in your browser.', icon: <FileUp className="w-6 h-6 text-blue-600" /> },
-                      { title: '2. AI Data Mining', desc: 'Gemini 1.5 Flash mines the text for models, datasets, methodology, and key insights.', icon: <Database className="w-6 h-6 text-purple-600" /> },
-                      { title: '3. Explore Insights', desc: 'Navigate through structured tabs to see summaries, findings, and future research paths.', icon: <Microscope className="w-6 h-6 text-pink-600" /> },
+                      { title: '1. Upload PDF', desc: 'Drag and drop your research paper. Our system extracts the raw text directly in your browser.', icon: <FileUp className="w-6 h-6 text-blue-500" /> },
+                      { title: '2. AI Data Mining', desc: 'Gemini 1.5 Flash mines the text for models, datasets, methodology, and key insights.', icon: <Database className="w-6 h-6 text-purple-500" /> },
+                      { title: '3. Explore Insights', desc: 'Navigate through structured tabs to see summaries, findings, and future research paths.', icon: <Microscope className="w-6 h-6 text-pink-500" /> },
                     ].map((step, i) => (
-                      <div key={i} className="bg-white/50 p-4 rounded-xl border border-white/50 space-y-2">
+                      <div key={i} className="bg-background/40 p-4 rounded-xl border border-border/50 space-y-2 backdrop-blur-sm">
                         <div className="mb-2">{step.icon}</div>
-                        <h4 className="font-bold text-gray-900">{step.title}</h4>
-                        <p className="text-xs text-gray-600 leading-relaxed">{step.desc}</p>
+                        <h4 className="font-bold text-foreground">{step.title}</h4>
+                        <p className="text-xs text-muted-foreground leading-relaxed">{step.desc}</p>
                       </div>
                     ))}
                   </CardContent>
@@ -229,7 +335,7 @@ export default function App() {
                   )}
                 </div>
                 
-                <Card className="border-gray-200 shadow-sm overflow-hidden bg-white ai-glow">
+                <Card className="border-border shadow-sm overflow-hidden bg-card/80 backdrop-blur-sm ai-glow">
                   <CardContent className="p-6 space-y-6">
                     <div 
                       onDragOver={handleDragOver}
@@ -237,8 +343,8 @@ export default function App() {
                       onDrop={handleDrop}
                       className={`
                         relative border-2 border-dashed rounded-2xl p-10 transition-all duration-300 flex flex-col items-center justify-center gap-4
-                        ${isDragging ? 'border-blue-500 bg-blue-50 scale-[0.98]' : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50/50'}
-                        ${file ? 'bg-blue-50/20 border-blue-100' : ''}
+                        ${isDragging ? 'border-primary bg-primary/10 scale-[0.98]' : 'border-border hover:border-primary/50 hover:bg-muted/50'}
+                        ${file ? 'bg-primary/5 border-primary/20' : ''}
                       `}
                     >
                       <input 
@@ -258,24 +364,24 @@ export default function App() {
                             animate={{ scale: 1, opacity: 1 }}
                             className="flex flex-col items-center"
                           >
-                            <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-4 rounded-2xl shadow-lg shadow-blue-200 mb-2">
+                            <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-4 rounded-2xl shadow-lg shadow-blue-500/20 mb-2">
                               <FileText className="w-8 h-8 text-white" />
                             </div>
-                            <span className="text-sm font-bold text-gray-900 truncate max-w-[200px] mb-1">
+                            <span className="text-sm font-bold text-foreground truncate max-w-[200px] mb-1">
                               {file.name}
                             </span>
-                            <span className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">
+                            <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">
                               {(file.size / (1024 * 1024)).toFixed(2)} MB &bull; PDF
                             </span>
                           </motion.div>
                         ) : (
                           <>
-                            <div className="bg-gray-100 p-4 rounded-2xl text-gray-400 group-hover:text-blue-500 transition-colors">
+                            <div className="bg-muted p-4 rounded-2xl text-muted-foreground group-hover:text-primary transition-colors">
                               <FileUp className="w-8 h-8" />
                             </div>
                             <div className="space-y-1">
-                              <p className="text-sm font-bold text-gray-900">Drop your paper here</p>
-                              <p className="text-xs text-gray-400">or click to browse files</p>
+                              <p className="text-sm font-bold text-foreground">Drop your paper here</p>
+                              <p className="text-xs text-muted-foreground">or click to browse files</p>
                             </div>
                           </>
                         )}
@@ -284,16 +390,16 @@ export default function App() {
 
                     {isAnalyzing && (
                       <div className="space-y-3">
-                        <div className="flex justify-between text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                        <div className="flex justify-between text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
                           <span>{step === 'extracting' ? 'Extracting Text' : 'AI Mining'}</span>
                           <span>{progress}%</span>
                         </div>
-                        <Progress value={progress} className="h-1.5 bg-blue-100" />
+                        <Progress value={progress} className="h-1.5 bg-primary/10" />
                       </div>
                     )}
 
                     <Button 
-                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white h-12 rounded-xl transition-all shadow-lg shadow-blue-100 font-bold"
+                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white h-12 rounded-xl transition-all shadow-lg shadow-blue-500/20 font-bold"
                       disabled={!file || isAnalyzing}
                       onClick={handleAnalyze}
                     >
@@ -324,8 +430,8 @@ export default function App() {
                 <ScrollArea className="h-[300px] pr-4">
                   <div className="space-y-3">
                     {history.length === 0 ? (
-                      <div className="text-center py-12 border border-dashed border-gray-200 rounded-2xl">
-                        <p className="text-xs text-gray-400 font-medium">No recent mining sessions</p>
+                      <div className="text-center py-12 border border-dashed border-border rounded-2xl bg-card/40 backdrop-blur-sm">
+                        <p className="text-xs text-muted-foreground font-medium">No recent mining sessions</p>
                       </div>
                     ) : (
                       history.map((item) => (
@@ -333,23 +439,23 @@ export default function App() {
                           key={item.id}
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
-                          className="group relative bg-white border border-gray-100 rounded-xl p-4 hover:border-blue-200 hover:shadow-sm transition-all cursor-pointer"
+                          className="group relative bg-card/80 backdrop-blur-sm border border-border rounded-xl p-4 hover:border-primary/50 hover:shadow-sm transition-all cursor-pointer"
                           onClick={() => loadFromHistory(item)}
                         >
                           <div className="flex items-start justify-between gap-3">
                             <div className="flex items-center gap-3">
-                              <div className="bg-gray-50 p-2 rounded-lg group-hover:bg-blue-50 transition-colors">
-                                <FileText className="w-4 h-4 text-gray-400 group-hover:text-blue-500" />
+                              <div className="bg-muted p-2 rounded-lg group-hover:bg-primary/10 transition-colors">
+                                <FileText className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
                               </div>
                               <div className="min-w-0">
-                                <p className="text-xs font-bold text-gray-900 truncate pr-4">{item.fileName}</p>
-                                <p className="text-[10px] text-gray-400 mt-0.5">{item.date}</p>
+                                <p className="text-xs font-bold text-foreground truncate pr-4">{item.fileName}</p>
+                                <p className="text-[10px] text-muted-foreground mt-0.5">{item.date}</p>
                               </div>
                             </div>
                             <Button 
                               variant="ghost" 
                               size="icon" 
-                              className="h-6 w-6 opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-500 transition-all"
+                              className="h-6 w-6 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-all"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 deleteHistoryItem(item.id);
@@ -375,7 +481,7 @@ export default function App() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.98 }}
-                    className="h-full flex flex-col items-center justify-center text-center p-16 bg-white rounded-[2rem] border border-gray-100 shadow-sm paper-texture relative overflow-hidden"
+                    className="h-full flex flex-col items-center justify-center text-center p-16 bg-card/80 backdrop-blur-sm rounded-[2rem] border border-border shadow-sm paper-texture relative overflow-hidden"
                   >
                     <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
                       <img 
@@ -385,14 +491,14 @@ export default function App() {
                         referrerPolicy="no-referrer"
                       />
                     </div>
-                    <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-8 rounded-full mb-8 relative z-10">
-                      <Database className="w-12 h-12 text-blue-400" />
+                    <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 p-8 rounded-full mb-8 relative z-10">
+                      <Database className="w-12 h-12 text-primary" />
                       <div className="absolute -top-2 -right-2 bg-purple-500 p-2 rounded-full animate-pulse">
                         <Sparkles className="w-4 h-4 text-white" />
                       </div>
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-3 relative z-10">AI Data Mining Portal</h3>
-                    <p className="text-gray-500 max-w-md leading-relaxed relative z-10">
+                    <h3 className="text-2xl font-bold text-foreground mb-3 relative z-10">AI Data Mining Portal</h3>
+                    <p className="text-muted-foreground max-w-md leading-relaxed relative z-10">
                       Our advanced AI engine will mine your document for deep technical insights, methodology details, and dataset references.
                     </p>
                     <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-2xl relative z-10">
@@ -402,9 +508,9 @@ export default function App() {
                         { icon: <BarChart3 className="w-4 h-4" />, label: 'Metrics' },
                         { icon: <Microscope className="w-4 h-4" />, label: 'Methods' },
                       ].map((feature, i) => (
-                        <div key={i} className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-gray-100 flex flex-col items-center gap-2 shadow-sm">
-                          <div className="text-blue-500">{feature.icon}</div>
-                          <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{feature.label}</span>
+                        <div key={i} className="bg-background/80 backdrop-blur-sm p-4 rounded-2xl border border-border flex flex-col items-center gap-2 shadow-sm">
+                          <div className="text-primary">{feature.icon}</div>
+                          <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{feature.label}</span>
                         </div>
                       ))}
                     </div>
@@ -417,23 +523,23 @@ export default function App() {
                     exit={{ opacity: 0 }}
                     className="space-y-8"
                   >
-                    <div className="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm space-y-8">
+                    <div className="bg-card/80 backdrop-blur-sm p-8 rounded-[2rem] border border-border shadow-sm space-y-8">
                       <div className="flex items-center gap-4">
-                        <Skeleton className="h-12 w-12 rounded-xl" />
+                        <Skeleton className="h-12 w-12 rounded-xl bg-muted" />
                         <div className="space-y-2 flex-1">
-                          <Skeleton className="h-6 w-1/3 rounded-lg" />
-                          <Skeleton className="h-4 w-full rounded-full" />
+                          <Skeleton className="h-6 w-1/3 rounded-lg bg-muted" />
+                          <Skeleton className="h-4 w-full rounded-full bg-muted" />
                         </div>
                       </div>
-                      <Separator className="bg-gray-50" />
+                      <Separator className="bg-border/50" />
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-4">
-                          <Skeleton className="h-6 w-1/2 rounded-lg" />
-                          <Skeleton className="h-48 w-full rounded-2xl" />
+                          <Skeleton className="h-6 w-1/2 rounded-lg bg-muted" />
+                          <Skeleton className="h-48 w-full rounded-2xl bg-muted" />
                         </div>
                         <div className="space-y-4">
-                          <Skeleton className="h-6 w-1/2 rounded-lg" />
-                          <Skeleton className="h-48 w-full rounded-2xl" />
+                          <Skeleton className="h-6 w-1/2 rounded-lg bg-muted" />
+                          <Skeleton className="h-48 w-full rounded-2xl bg-muted" />
                         </div>
                       </div>
                     </div>
@@ -448,10 +554,10 @@ export default function App() {
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                       <div className="flex items-center gap-4">
                         <div className="relative">
-                          <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-3 rounded-2xl shadow-lg shadow-blue-100">
+                          <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-3 rounded-2xl shadow-lg shadow-blue-500/20">
                             <Database className="w-6 h-6 text-white" />
                           </div>
-                          <div className="absolute -bottom-1 -right-1 bg-white p-1 rounded-full shadow-sm">
+                          <div className="absolute -bottom-1 -right-1 bg-background p-1 rounded-full shadow-sm">
                             <img 
                               src="https://picsum.photos/seed/ai-chip/32/32" 
                               alt="AI Icon" 
@@ -461,22 +567,22 @@ export default function App() {
                           </div>
                         </div>
                         <div>
-                          <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Mining Results</h2>
-                          <p className="text-sm text-gray-400 font-medium">Deep analysis generated by Gemini AI</p>
+                          <h2 className="text-2xl font-bold text-foreground tracking-tight">Mining Results</h2>
+                          <p className="text-sm text-muted-foreground font-medium">Deep analysis generated by Gemini AI</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Button variant="outline" size="sm" className="rounded-xl border-gray-200" onClick={() => copyToClipboard(JSON.stringify(analysis, null, 2))}>
+                        <Button variant="outline" size="sm" className="rounded-xl border-border bg-card/50 backdrop-blur-sm" onClick={() => copyToClipboard(JSON.stringify(analysis, null, 2))}>
                           <Copy className="w-4 h-4 mr-2" /> Copy JSON
                         </Button>
-                        <Button className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-5 font-bold shadow-lg shadow-blue-100">
+                        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl px-5 font-bold shadow-lg shadow-primary/20">
                           <Download className="w-4 h-4 mr-2" /> Export Report
                         </Button>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                      <Card className="md:col-span-1 border-none shadow-sm bg-white rounded-[2rem] overflow-hidden group">
+                      <Card className="md:col-span-1 border-none shadow-sm bg-card/80 backdrop-blur-sm rounded-[2rem] overflow-hidden group">
                         <div className="aspect-[3/4] relative overflow-hidden">
                           <img 
                             src={`https://picsum.photos/seed/${analysis?.summary.substring(0, 10)}/400/600`} 
@@ -493,7 +599,7 @@ export default function App() {
 
                       <div className="md:col-span-3">
                         <Tabs defaultValue="mining" className="w-full">
-                          <TabsList className="flex w-full bg-gray-100/50 p-1.5 rounded-2xl h-14 mb-8 overflow-x-auto no-scrollbar">
+                          <TabsList className="flex w-full bg-muted/50 p-1.5 rounded-2xl h-14 mb-8 overflow-x-auto no-scrollbar backdrop-blur-sm">
                             {[
                               { value: 'mining', label: 'AI Mining', icon: <Database className="w-4 h-4" /> },
                               { value: 'method', label: 'Methodology', icon: <Microscope className="w-4 h-4" /> },
@@ -503,7 +609,7 @@ export default function App() {
                               <TabsTrigger 
                                 key={tab.value}
                                 value={tab.value} 
-                                className="flex-1 min-w-[120px] rounded-xl data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm transition-all font-bold text-xs uppercase tracking-widest flex items-center gap-2"
+                                className="flex-1 min-w-[120px] rounded-xl data-[state=active]:bg-card data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all font-bold text-xs uppercase tracking-widest flex items-center gap-2"
                               >
                                 {tab.icon}
                                 <span>{tab.label}</span>
@@ -515,11 +621,11 @@ export default function App() {
                             <TabsContent value="mining" className="mt-0 space-y-6">
                               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 {[
-                                  { title: 'Models', items: analysis?.dataMining.modelsUsed, icon: <Cpu className="w-4 h-4 text-blue-600" />, bg: 'bg-blue-50' },
-                                  { title: 'Datasets', items: analysis?.dataMining.datasets, icon: <Layers className="w-4 h-4 text-purple-600" />, bg: 'bg-purple-50' },
-                                  { title: 'Metrics', items: analysis?.dataMining.metrics, icon: <BarChart3 className="w-4 h-4 text-pink-600" />, bg: 'bg-pink-50' },
+                                  { title: 'Models', items: analysis?.dataMining.modelsUsed, icon: <Cpu className="w-4 h-4 text-blue-500" />, bg: 'bg-blue-500/10' },
+                                  { title: 'Datasets', items: analysis?.dataMining.datasets, icon: <Layers className="w-4 h-4 text-purple-500" />, bg: 'bg-purple-500/10' },
+                                  { title: 'Metrics', items: analysis?.dataMining.metrics, icon: <BarChart3 className="w-4 h-4 text-pink-500" />, bg: 'bg-pink-500/10' },
                                 ].map((box, i) => (
-                                  <Card key={i} className="border-none shadow-sm bg-white rounded-2xl overflow-hidden">
+                                  <Card key={i} className="border-none shadow-sm bg-card/80 backdrop-blur-sm rounded-2xl overflow-hidden">
                                     <CardHeader className={`${box.bg} py-3 px-4`}>
                                       <CardTitle className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
                                         {box.icon} {box.title}
@@ -528,7 +634,7 @@ export default function App() {
                                     <CardContent className="p-4">
                                       <div className="flex flex-wrap gap-1.5">
                                         {box.items?.map((item, j) => (
-                                          <Badge key={j} variant="secondary" className="bg-gray-50 text-[10px] text-gray-600 border-gray-100 font-bold px-2 py-0">
+                                          <Badge key={j} variant="secondary" className="bg-muted/50 text-[10px] text-muted-foreground border-border font-bold px-2 py-0">
                                             {item}
                                           </Badge>
                                         ))}
@@ -538,7 +644,7 @@ export default function App() {
                                 ))}
                               </div>
                               
-                              <Card className="border-none shadow-sm bg-white rounded-[2rem] overflow-hidden">
+                              <Card className="border-none shadow-sm bg-card/80 backdrop-blur-sm rounded-[2rem] overflow-hidden">
                                 <CardHeader className="p-8 pb-0">
                                   <CardTitle className="text-lg font-bold flex items-center gap-2">
                                     <Lightbulb className="w-5 h-5 text-amber-500" /> Key Insights
@@ -547,9 +653,9 @@ export default function App() {
                                 <CardContent className="p-8">
                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {analysis?.keyInsights.map((insight, i) => (
-                                      <div key={i} className="flex gap-3 p-4 bg-amber-50/30 rounded-xl border border-amber-50">
-                                        <CheckCircle2 className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                                        <p className="text-sm text-gray-700 font-medium leading-relaxed">{insight}</p>
+                                      <div key={i} className="flex gap-3 p-4 bg-amber-500/10 rounded-xl border border-amber-500/20">
+                                        <CheckCircle2 className="w-4 h-4 text-amber-500 mt-0.5 flex-shrink-0" />
+                                        <p className="text-sm text-foreground font-medium leading-relaxed">{insight}</p>
                                       </div>
                                     ))}
                                   </div>
@@ -675,7 +781,7 @@ export default function App() {
                 <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-2 rounded-lg">
                   <Brain className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-sm font-bold text-gray-900">ScholarScan AI</span>
+                <span className="text-sm font-bold text-foreground">Data mine AI</span>
               </div>
               <div className="flex items-center gap-8">
                 <a href="#" className="text-xs font-bold text-gray-400 uppercase tracking-widest hover:text-gray-900 transition-colors">Documentation</a>

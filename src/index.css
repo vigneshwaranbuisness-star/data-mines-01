@@ -8,35 +8,48 @@
 
 @layer base {
   body {
-    @apply bg-[#FDFCFB] text-[#1A1A1A] antialiased overflow-x-hidden;
-    background-image: 
-      radial-gradient(at 0% 0%, hsla(210,100%,95%,1) 0, transparent 50%), 
-      radial-gradient(at 50% 0%, hsla(225,100%,95%,1) 0, transparent 50%), 
-      radial-gradient(at 100% 0%, hsla(339,100%,95%,1) 0, transparent 50%);
-    background-attachment: fixed;
+    @apply bg-background text-foreground antialiased overflow-x-hidden transition-colors duration-300;
   }
 }
 
+.video-bg-container {
+  @apply fixed inset-0 -z-10 overflow-hidden pointer-events-none;
+}
+
+.video-bg-overlay {
+  @apply absolute inset-0 bg-background/60 backdrop-blur-[2px] transition-colors duration-300;
+  background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
+}
+
 .paper-texture {
-  background-color: #ffffff;
+  @apply bg-card;
   background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
   box-shadow: inset 0 0 100px rgba(0,0,0,0.02);
 }
 
+.dark .paper-texture {
+  background-image: url("https://www.transparenttextures.com/patterns/dark-matter.png");
+  box-shadow: inset 0 0 100px rgba(0,0,0,0.2);
+}
+
 .ai-gradient-text {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500;
 }
 
 .ai-glow {
-  box-shadow: 0 0 20px rgba(37, 99, 235, 0.1);
+  @apply shadow-[0_0_20px_rgba(37,99,235,0.1)];
+}
+
+.dark .ai-glow {
+  @apply shadow-[0_0_30px_rgba(37,99,235,0.2)];
 }
 
 .glass-card {
-  @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)];
+  @apply bg-card/80 backdrop-blur-md border border-border/50 shadow-[0_8px_32px_0_rgba(0,0,0,0.05)];
 }
 
 .scholarly-border {
-  @apply border-b-2 border-double border-gray-200;
+  @apply border-l-4 border-primary;
 }
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -161,7 +174,7 @@
     @apply border-border outline-ring/50;
     }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased overflow-x-hidden transition-colors duration-300;
     }
   html {
     @apply font-sans;

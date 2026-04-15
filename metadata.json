@@ -1,6 +1,6 @@
 {
-  "name": "ScholarScan AI",
-  "description": "AI-powered research paper analyzer that extracts insights, summaries, and future directions from PDF documents.",
+  "name": "Data mine AI",
+  "description": "Advanced AI data mining engine for research papers, extracting models, datasets, and deep technical insights.",
   "requestFramePermissions": [],
   "majorCapabilities": []
 }
