@@ -15,6 +15,11 @@ export interface AnalysisResult {
     datasets: string[];
     metrics: string[];
   };
+  quotes: {
+    methodology: string;
+    findings: string[];
+    insights: string[];
+  };
 }
 
 export async function analyzeResearchPaper(text: string): Promise<AnalysisResult> {
@@ -43,8 +48,15 @@ export async function analyzeResearchPaper(text: string): Promise<AnalysisResult
                 "modelsUsed": ["Model A", "Algorithm B", ...],
                 "datasets": ["Dataset X", ...],
                 "metrics": ["Accuracy", "F1-Score", ...]
+              },
+              "quotes": {
+                "methodology": "A direct, verbatim excerpt from the text that describes the methodology",
+                "findings": ["Direct verbatim excerpt for finding 1", ...],
+                "insights": ["Direct verbatim excerpt for insight 1", ...]
               }
-            }`
+            }
+            
+            CRITICAL: The "quotes" field MUST contain EXACT, VERBATIM strings from the provided text so they can be located for highlighting.`
           }
         ]
       }
@@ -69,9 +81,18 @@ export async function analyzeResearchPaper(text: string): Promise<AnalysisResult
               metrics: { type: Type.ARRAY, items: { type: Type.STRING } }
             },
             required: ["modelsUsed", "datasets", "metrics"]
+          },
+          quotes: {
+            type: Type.OBJECT,
+            properties: {
+              methodology: { type: Type.STRING },
+              findings: { type: Type.ARRAY, items: { type: Type.STRING } },
+              insights: { type: Type.ARRAY, items: { type: Type.STRING } }
+            },
+            required: ["methodology", "findings", "insights"]
           }
         },
-        required: ["summary", "keyInsights", "problemStatements", "futureDirections", "methodology", "keyFindings", "limitations", "dataMining"]
+        required: ["summary", "keyInsights", "problemStatements", "futureDirections", "methodology", "keyFindings", "limitations", "dataMining", "quotes"]
       }
     }
   });

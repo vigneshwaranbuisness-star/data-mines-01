@@ -16,8 +16,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Progress } from '@/components/ui/progress';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
 import { extractTextFromPDF } from '@/lib/pdf';
 import { analyzeResearchPaper, AnalysisResult } from '@/lib/gemini';
 
@@ -32,6 +34,9 @@ export default function App() {
   const [file, setFile] = useState<File | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
+  const [extractedText, setExtractedText] = useState<string>('');
+  const [highlightedQuote, setHighlightedQuote] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<string>('mining');
   const [error, setError] = useState<string | null>(null);
   const [step, setStep] = useState<'idle' | 'extracting' | 'analyzing'>('idle');
   const [progress, setProgress] = useState(0);
@@ -41,14 +46,42 @@ export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [videoIndex, setVideoIndex] = useState(0);
 
-  const videos = [
-    "https://cdn.pixabay.com/video/2020/05/25/40134-424930335_large.mp4", // Abstract data/network
-    "https://cdn.pixabay.com/video/2021/04/12/70874-537480562_large.mp4", // Digital brain/AI
-    "https://cdn.pixabay.com/video/2023/10/20/185731-876174624_large.mp4", // Scientific visualization
-    "https://cdn.pixabay.com/video/2019/04/14/22845-331163436_large.mp4", // Neural network nodes
-    "https://cdn.pixabay.com/video/2021/04/12/70871-537480559_large.mp4", // Cybernetic grid
-    "https://cdn.pixabay.com/video/2020/05/25/40132-424930333_large.mp4", // Data stream flow
-    "https://cdn.pixabay.com/video/2022/07/11/123730-728864703_large.mp4"  // Molecular research
+  const videoOptions = [
+    { 
+      name: "Global Network", 
+      url: "https://cdn.pixabay.com/video/2020/05/25/40134-424930335_large.mp4",
+      thumbnail: "https://picsum.photos/seed/network/200/120"
+    },
+    { 
+      name: "Neural AI", 
+      url: "https://cdn.pixabay.com/video/2021/04/12/70874-537480562_large.mp4",
+      thumbnail: "https://picsum.photos/seed/neural/200/120"
+    },
+    { 
+      name: "Scientific Core", 
+      url: "https://cdn.pixabay.com/video/2023/10/20/185731-876174624_large.mp4",
+      thumbnail: "https://picsum.photos/seed/science/200/120"
+    },
+    { 
+      name: "Synapse Web", 
+      url: "https://cdn.pixabay.com/video/2019/04/14/22845-331163436_large.mp4",
+      thumbnail: "https://picsum.photos/seed/synapse/200/120"
+    },
+    { 
+      name: "Cyber Grid", 
+      url: "https://cdn.pixabay.com/video/2021/04/12/70871-537480559_large.mp4",
+      thumbnail: "https://picsum.photos/seed/grid/200/120"
+    },
+    { 
+      name: "Data Stream", 
+      url: "https://cdn.pixabay.com/video/2020/05/25/40132-424930333_large.mp4",
+      thumbnail: "https://picsum.photos/seed/stream/200/120"
+    },
+    { 
+      name: "Molecular Lab", 
+      url: "https://cdn.pixabay.com/video/2022/07/11/123730-728864703_large.mp4",
+      thumbnail: "https://picsum.photos/seed/molecular/200/120"
+    }
   ];
 
   // Dark mode effect
@@ -117,6 +150,7 @@ export default function App() {
     try {
       // Step 1: Extract Text
       const text = await extractTextFromPDF(file);
+      setExtractedText(text);
       setProgress(50);
       
       setStep('analyzing');
@@ -172,46 +206,40 @@ export default function App() {
         {/* 3D Video Background & Effects */}
         <div className="video-bg-container">
           <video 
-            key={videos[videoIndex]}
+            key={videoOptions[videoIndex].url}
             autoPlay 
             muted 
             loop 
             playsInline
-            className="w-full h-full object-cover opacity-30 dark:opacity-20 transition-opacity duration-1000"
+            className="w-full h-full object-cover opacity-40 dark:opacity-20 transition-opacity duration-1000 scale-105"
           >
-            <source src={videos[videoIndex]} type="video/mp4" />
+            <source src={videoOptions[videoIndex].url} type="video/mp4" />
           </video>
           
           {/* Scanning Line Effect */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <motion.div 
-              animate={{ y: ['0%', '1000%'] }}
-              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-              className="w-full h-[2px] bg-gradient-to-r from-transparent via-primary/30 to-transparent blur-[1px]"
-            />
-          </div>
+          <div className="scanline-effect" />
 
           {/* Floating Particles (Simplified) */}
           <div className="absolute inset-0 pointer-events-none">
-            {[...Array(15)].map((_, i) => (
+            {[...Array(20)].map((_, i) => (
               <motion.div
                 key={i}
                 initial={{ 
                   x: Math.random() * 100 + '%', 
                   y: Math.random() * 100 + '%',
-                  opacity: Math.random() * 0.3
+                  opacity: Math.random() * 0.4
                 }}
                 animate={{ 
-                  y: [null, (Math.random() * -20 - 10) + '%'],
+                  y: [null, (Math.random() * -30 - 20) + '%'],
                   opacity: [null, 0]
                 }}
                 transition={{ 
-                  duration: Math.random() * 10 + 10, 
+                  duration: Math.random() * 15 + 10, 
                   repeat: Infinity, 
                   ease: "linear",
                   delay: Math.random() * 10
                 }}
-                className="absolute w-1 h-1 bg-primary/40 rounded-full blur-[1px]"
+                className="absolute w-1.5 h-1.5 bg-primary/30 rounded-full blur-[2px]"
               />
             ))}
           </div>
@@ -220,35 +248,90 @@ export default function App() {
         </div>
         
         {/* Header */}
-        <header className="border-b border-border bg-background/60 backdrop-blur-md sticky top-0 z-50 transition-colors duration-300">
+        <header className="border-b border-white/10 bg-background/40 backdrop-blur-xl sticky top-0 z-50 transition-colors duration-300">
           <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
             <div className="flex items-center gap-3 group cursor-pointer" onClick={() => window.location.reload()}>
-              <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-2 rounded-lg transition-transform group-hover:rotate-12">
+              <motion.div 
+                whileHover={{ rotate: 15, scale: 1.1 }}
+                className="bg-gradient-to-br from-blue-600 to-purple-600 p-2 rounded-xl shadow-lg shadow-blue-500/20"
+              >
                 <Brain className="w-5 h-5 text-white" />
-              </div>
+              </motion.div>
               <div>
-                <h1 className="text-lg font-bold tracking-tight leading-none ai-gradient-text">Data mine AI</h1>
-                <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest mt-1">Advanced Mining Engine</p>
+                <h1 className="text-lg font-black tracking-tighter leading-none ai-gradient-text uppercase">Data mine AI</h1>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
+                  <p className="text-[9px] text-muted-foreground font-bold uppercase tracking-[0.2em]">Neural Engine Active</p>
+                </div>
               </div>
             </div>
             
             <div className="flex items-center gap-2 md:gap-4">
-              <div className="hidden sm:flex items-center gap-1">
-                <Tooltip>
-                  <TooltipTrigger 
+              <div className="hidden md:flex items-center gap-6 mr-6 border-r border-white/10 pr-6">
+                <div className="flex flex-col items-end">
+                  <span className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest">System Load</span>
+                  <span className="text-[10px] font-mono font-bold text-primary">12.4 TFLOPS</span>
+                </div>
+                <div className="flex flex-col items-end">
+                  <span className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest">Mining Depth</span>
+                  <span className="text-[10px] font-mono font-bold text-primary">LAYER_07</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <Popover>
+                  <PopoverTrigger 
                     render={
                       <Button 
                         variant="ghost" 
                         size="icon" 
-                        className="h-9 w-9 rounded-xl text-muted-foreground hover:text-primary"
-                        onClick={() => setVideoIndex((prev) => (prev + 1) % videos.length)}
+                        className="h-9 w-9 rounded-xl text-muted-foreground hover:text-primary btn-3d"
                       >
                         <Video className="w-4 h-4" />
                       </Button>
                     }
                   />
-                  <TooltipContent>Switch 3D Background</TooltipContent>
-                </Tooltip>
+                  <PopoverContent className="w-80 p-3 glass-card border-white/20" align="end">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between px-1">
+                        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Environment Select</p>
+                        <Badge variant="outline" className="text-[8px] font-bold border-primary/30 text-primary">3D_CORE</Badge>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        {videoOptions.map((option, index) => (
+                          <button
+                            key={option.name}
+                            onClick={() => setVideoIndex(index)}
+                            className={cn(
+                              "relative group/thumb aspect-video rounded-lg overflow-hidden border-2 transition-all duration-300",
+                              videoIndex === index 
+                                ? "border-primary shadow-[0_0_15px_theme('colors.primary.DEFAULT / 40%')]" 
+                                : "border-transparent hover:border-white/30"
+                            )}
+                          >
+                            <img 
+                              src={option.thumbnail} 
+                              alt={option.name}
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover/thumb:scale-110"
+                              referrerPolicy="no-referrer"
+                            />
+                            <div className={cn(
+                              "absolute inset-0 flex items-end p-2 transition-opacity duration-300",
+                              videoIndex === index ? "bg-primary/20" : "bg-black/40 opacity-0 group-hover/thumb:opacity-100"
+                            )}>
+                              <span className="text-[8px] font-bold text-white uppercase tracking-widest truncate">{option.name}</span>
+                            </div>
+                            {videoIndex === index && (
+                              <div className="absolute top-1 right-1">
+                                <CheckCircle2 className="w-3 h-3 text-primary fill-background" />
+                              </div>
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
 
                 <Tooltip>
                   <TooltipTrigger 
@@ -256,7 +339,7 @@ export default function App() {
                       <Button 
                         variant="ghost" 
                         size="icon" 
-                        className="h-9 w-9 rounded-xl text-muted-foreground hover:text-primary"
+                        className="h-9 w-9 rounded-xl text-muted-foreground hover:text-primary btn-3d"
                         onClick={() => setIsDarkMode(!isDarkMode)}
                       >
                         {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -267,17 +350,17 @@ export default function App() {
                 </Tooltip>
               </div>
 
-              <Separator orientation="vertical" className="h-6 hidden sm:block" />
+              <Separator orientation="vertical" className="h-6 hidden sm:block border-white/10" />
 
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="text-xs font-bold text-muted-foreground hover:text-primary hidden md:flex"
+                className="text-xs font-bold text-muted-foreground hover:text-primary hidden md:flex btn-3d"
                 onClick={() => setShowHowTo(!showHowTo)}
               >
                 <HelpCircle className="w-4 h-4 mr-2" /> How it works
               </Button>
-              <Badge variant="outline" className="font-mono text-[10px] uppercase tracking-wider opacity-60 border-border">
+              <Badge variant="outline" className="font-mono text-[10px] uppercase tracking-wider opacity-60 border-white/10 text-primary">
                 v1.6.0 Pro
               </Badge>
             </div>
@@ -335,7 +418,7 @@ export default function App() {
                   )}
                 </div>
                 
-                <Card className="border-border shadow-sm overflow-hidden bg-card/80 backdrop-blur-sm ai-glow">
+                <Card className="border-white/10 shadow-sm overflow-hidden glass-card holographic-border">
                   <CardContent className="p-6 space-y-6">
                     <div 
                       onDragOver={handleDragOver}
@@ -367,21 +450,21 @@ export default function App() {
                             <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-4 rounded-2xl shadow-lg shadow-blue-500/20 mb-2">
                               <FileText className="w-8 h-8 text-white" />
                             </div>
-                            <span className="text-sm font-bold text-foreground truncate max-w-[200px] mb-1">
+                            <p className="text-sm font-black text-foreground uppercase tracking-tighter truncate max-w-[200px] mb-1">
                               {file.name}
-                            </span>
-                            <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">
+                            </p>
+                            <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">
                               {(file.size / (1024 * 1024)).toFixed(2)} MB &bull; PDF
-                            </span>
+                            </p>
                           </motion.div>
                         ) : (
                           <>
-                            <div className="bg-muted p-4 rounded-2xl text-muted-foreground group-hover:text-primary transition-colors">
+                            <div className="bg-primary/10 p-4 rounded-2xl text-primary transition-colors">
                               <FileUp className="w-8 h-8" />
                             </div>
                             <div className="space-y-1">
-                              <p className="text-sm font-bold text-foreground">Drop your paper here</p>
-                              <p className="text-xs text-muted-foreground">or click to browse files</p>
+                              <p className="text-sm font-black text-foreground uppercase tracking-tighter">Neural Interface Dropzone</p>
+                              <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">PDF_FORMAT_ONLY</p>
                             </div>
                           </>
                         )}
@@ -399,19 +482,18 @@ export default function App() {
                     )}
 
                     <Button 
-                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white h-12 rounded-xl transition-all shadow-lg shadow-blue-500/20 font-bold"
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl h-12 font-black uppercase tracking-widest shadow-lg shadow-primary/20 btn-3d"
                       disabled={!file || isAnalyzing}
                       onClick={handleAnalyze}
                     >
                       {isAnalyzing ? (
                         <>
-                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                          Mining Data...
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" /> 
+                          {step === 'extracting' ? 'EXTRACTING_TEXT...' : 'MINING_DATA...'}
                         </>
                       ) : (
                         <>
-                          Start AI Mining
-                          <Database className="w-4 h-4 ml-2" />
+                          <Brain className="w-4 h-4 mr-2" /> Initialize Mining
                         </>
                       )}
                     </Button>
@@ -491,15 +573,15 @@ export default function App() {
                         referrerPolicy="no-referrer"
                       />
                     </div>
-                    <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 p-8 rounded-full mb-8 relative z-10">
+                    <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 p-8 rounded-full mb-8 relative z-10 holographic-border">
                       <Database className="w-12 h-12 text-primary" />
-                      <div className="absolute -top-2 -right-2 bg-purple-500 p-2 rounded-full animate-pulse">
+                      <div className="absolute -top-2 -right-2 bg-purple-500 p-2 rounded-full animate-pulse shadow-[0_0_15px_rgba(168,85,247,0.5)]">
                         <Sparkles className="w-4 h-4 text-white" />
                       </div>
                     </div>
-                    <h3 className="text-2xl font-bold text-foreground mb-3 relative z-10">AI Data Mining Portal</h3>
-                    <p className="text-muted-foreground max-w-md leading-relaxed relative z-10">
-                      Our advanced AI engine will mine your document for deep technical insights, methodology details, and dataset references.
+                    <h3 className="text-2xl font-black text-foreground mb-3 relative z-10 uppercase tracking-tighter">AI Extraction Portal</h3>
+                    <p className="text-muted-foreground max-w-md leading-relaxed relative z-10 font-medium">
+                      Deploying neural mining clusters to extract deep technical metadata, methodology frameworks, and dataset architectures.
                     </p>
                     <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-2xl relative z-10">
                       {[
@@ -508,10 +590,14 @@ export default function App() {
                         { icon: <BarChart3 className="w-4 h-4" />, label: 'Metrics' },
                         { icon: <Microscope className="w-4 h-4" />, label: 'Methods' },
                       ].map((feature, i) => (
-                        <div key={i} className="bg-background/80 backdrop-blur-sm p-4 rounded-2xl border border-border flex flex-col items-center gap-2 shadow-sm">
+                        <motion.div 
+                          key={i} 
+                          whileHover={{ y: -5, scale: 1.05 }}
+                          className="glass-card p-4 rounded-2xl flex flex-col items-center gap-2"
+                        >
                           <div className="text-primary">{feature.icon}</div>
                           <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{feature.label}</span>
-                        </div>
+                        </motion.div>
                       ))}
                     </div>
                   </motion.div>
@@ -554,9 +640,13 @@ export default function App() {
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                       <div className="flex items-center gap-4">
                         <div className="relative">
-                          <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-3 rounded-2xl shadow-lg shadow-blue-500/20">
+                          <motion.div 
+                            animate={{ rotate: [0, 5, -5, 0] }}
+                            transition={{ duration: 5, repeat: Infinity }}
+                            className="bg-gradient-to-br from-blue-600 to-purple-600 p-3 rounded-2xl shadow-lg shadow-blue-500/20 holographic-border"
+                          >
                             <Database className="w-6 h-6 text-white" />
-                          </div>
+                          </motion.div>
                           <div className="absolute -bottom-1 -right-1 bg-background p-1 rounded-full shadow-sm">
                             <img 
                               src="https://picsum.photos/seed/ai-chip/32/32" 
@@ -567,22 +657,22 @@ export default function App() {
                           </div>
                         </div>
                         <div>
-                          <h2 className="text-2xl font-bold text-foreground tracking-tight">Mining Results</h2>
-                          <p className="text-sm text-muted-foreground font-medium">Deep analysis generated by Gemini AI</p>
+                          <h2 className="text-2xl font-black text-foreground tracking-tighter uppercase">Mining Sequence Complete</h2>
+                          <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-[0.2em]">Neural Analysis Synchronized</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Button variant="outline" size="sm" className="rounded-xl border-border bg-card/50 backdrop-blur-sm" onClick={() => copyToClipboard(JSON.stringify(analysis, null, 2))}>
+                        <Button variant="outline" size="sm" className="rounded-xl border-white/10 glass-card btn-3d" onClick={() => copyToClipboard(JSON.stringify(analysis, null, 2))}>
                           <Copy className="w-4 h-4 mr-2" /> Copy JSON
                         </Button>
-                        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl px-5 font-bold shadow-lg shadow-primary/20">
-                          <Download className="w-4 h-4 mr-2" /> Export Report
+                        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl px-5 font-bold shadow-lg shadow-primary/20 btn-3d">
+                          <Download className="w-4 h-4 mr-2" /> Export Intelligence
                         </Button>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                      <Card className="md:col-span-1 border-none shadow-sm bg-card/80 backdrop-blur-sm rounded-[2rem] overflow-hidden group">
+                      <Card className="md:col-span-1 border-none shadow-sm glass-card rounded-[2rem] overflow-hidden group holographic-border">
                         <div className="aspect-[3/4] relative overflow-hidden">
                           <img 
                             src={`https://picsum.photos/seed/${analysis?.summary.substring(0, 10)}/400/600`} 
@@ -598,18 +688,19 @@ export default function App() {
                       </Card>
 
                       <div className="md:col-span-3">
-                        <Tabs defaultValue="mining" className="w-full">
-                          <TabsList className="flex w-full bg-muted/50 p-1.5 rounded-2xl h-14 mb-8 overflow-x-auto no-scrollbar backdrop-blur-sm">
+                        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                          <TabsList className="flex w-full bg-muted/50 p-1.5 rounded-2xl h-14 mb-8 overflow-x-auto no-scrollbar backdrop-blur-sm border border-white/5">
                             {[
                               { value: 'mining', label: 'AI Mining', icon: <Database className="w-4 h-4" /> },
                               { value: 'method', label: 'Methodology', icon: <Microscope className="w-4 h-4" /> },
                               { value: 'findings', label: 'Findings', icon: <BarChart3 className="w-4 h-4" /> },
                               { value: 'summary', label: 'Summary', icon: <FileText className="w-4 h-4" /> },
+                              { value: 'source', label: 'Source Text', icon: <BookOpen className="w-4 h-4" /> },
                             ].map((tab) => (
                               <TabsTrigger 
                                 key={tab.value}
                                 value={tab.value} 
-                                className="flex-1 min-w-[120px] rounded-xl data-[state=active]:bg-card data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all font-bold text-xs uppercase tracking-widest flex items-center gap-2"
+                                className="flex-1 min-w-[120px] rounded-xl data-[state=active]:bg-card data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all font-black text-[10px] uppercase tracking-widest flex items-center gap-2 btn-3d"
                               >
                                 {tab.icon}
                                 <span>{tab.label}</span>
@@ -625,9 +716,9 @@ export default function App() {
                                   { title: 'Datasets', items: analysis?.dataMining.datasets, icon: <Layers className="w-4 h-4 text-purple-500" />, bg: 'bg-purple-500/10' },
                                   { title: 'Metrics', items: analysis?.dataMining.metrics, icon: <BarChart3 className="w-4 h-4 text-pink-500" />, bg: 'bg-pink-500/10' },
                                 ].map((box, i) => (
-                                  <Card key={i} className="border-none shadow-sm bg-card/80 backdrop-blur-sm rounded-2xl overflow-hidden">
-                                    <CardHeader className={`${box.bg} py-3 px-4`}>
-                                      <CardTitle className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
+                                  <Card key={i} className="border-none shadow-sm glass-card rounded-2xl overflow-hidden group/box hover:-translate-y-1 transition-transform duration-300">
+                                    <CardHeader className={`${box.bg} py-3 px-4 border-b border-white/5`}>
+                                      <CardTitle className="text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
                                         {box.icon} {box.title}
                                       </CardTitle>
                                     </CardHeader>
@@ -644,18 +735,33 @@ export default function App() {
                                 ))}
                               </div>
                               
-                              <Card className="border-none shadow-sm bg-card/80 backdrop-blur-sm rounded-[2rem] overflow-hidden">
-                                <CardHeader className="p-8 pb-0">
-                                  <CardTitle className="text-lg font-bold flex items-center gap-2">
+                              <Card className="border-none shadow-sm glass-card rounded-[2rem] overflow-hidden">
+                                <CardHeader className="p-8 pb-0 flex flex-row items-center justify-between">
+                                  <CardTitle className="text-lg font-black uppercase tracking-tighter flex items-center gap-2">
                                     <Lightbulb className="w-5 h-5 text-amber-500" /> Key Insights
                                   </CardTitle>
                                 </CardHeader>
                                 <CardContent className="p-8">
                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {analysis?.keyInsights.map((insight, i) => (
-                                      <div key={i} className="flex gap-3 p-4 bg-amber-500/10 rounded-xl border border-amber-500/20">
-                                        <CheckCircle2 className="w-4 h-4 text-amber-500 mt-0.5 flex-shrink-0" />
-                                        <p className="text-sm text-foreground font-medium leading-relaxed">{insight}</p>
+                                      <div 
+                                        key={i} 
+                                        className="flex flex-col gap-3 p-4 bg-amber-500/10 rounded-xl border border-amber-500/20 group/insight cursor-pointer hover:bg-amber-500/20 transition-all hover:-translate-y-1"
+                                        onClick={() => {
+                                          if (analysis?.quotes.insights[i]) {
+                                            setHighlightedQuote(analysis.quotes.insights[i]);
+                                            setActiveTab('source');
+                                            toast.info('Jumping to source text...');
+                                          }
+                                        }}
+                                      >
+                                        <div className="flex gap-3">
+                                          <CheckCircle2 className="w-4 h-4 text-amber-500 mt-0.5 flex-shrink-0" />
+                                          <p className="text-sm text-foreground font-medium leading-relaxed">{insight}</p>
+                                        </div>
+                                        <div className="flex items-center gap-1 text-[10px] font-bold text-amber-600 uppercase tracking-widest opacity-0 group-hover/insight:opacity-100 transition-opacity">
+                                          <Target className="w-3 h-3" /> View Source
+                                        </div>
                                       </div>
                                     ))}
                                   </div>
@@ -678,6 +784,22 @@ export default function App() {
                               <p className="text-gray-800 leading-relaxed text-lg font-serif italic">
                                 {analysis?.methodology}
                               </p>
+                              
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                className="mt-6 rounded-xl border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100"
+                                onClick={() => {
+                                  if (analysis?.quotes.methodology) {
+                                    setHighlightedQuote(analysis.quotes.methodology);
+                                    setActiveTab('source');
+                                    toast.info('Jumping to methodology in source...');
+                                  }
+                                }}
+                              >
+                                <Target className="w-4 h-4 mr-2" /> View Methodology in Source
+                              </Button>
+
                               <div className="mt-10 space-y-4">
                                 <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Identified Limitations</h4>
                                 <div className="flex flex-wrap gap-3">
@@ -700,11 +822,26 @@ export default function App() {
                               </h3>
                               <div className="space-y-4">
                                 {analysis?.keyFindings.map((finding, i) => (
-                                  <div key={i} className="flex gap-4 p-4 bg-emerald-50/30 rounded-2xl border border-emerald-50">
-                                    <div className="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center text-[10px] font-bold text-emerald-600 flex-shrink-0">
-                                      {i + 1}
+                                  <div 
+                                    key={i} 
+                                    className="flex flex-col gap-4 p-4 bg-emerald-50/30 rounded-2xl border border-emerald-50 group/finding cursor-pointer hover:bg-emerald-50 transition-colors"
+                                    onClick={() => {
+                                      if (analysis?.quotes.findings[i]) {
+                                        setHighlightedQuote(analysis.quotes.findings[i]);
+                                        setActiveTab('source');
+                                        toast.info('Jumping to finding in source...');
+                                      }
+                                    }}
+                                  >
+                                    <div className="flex gap-4">
+                                      <div className="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center text-[10px] font-bold text-emerald-600 flex-shrink-0">
+                                        {i + 1}
+                                      </div>
+                                      <p className="text-sm text-gray-700 font-medium leading-relaxed">{finding}</p>
                                     </div>
-                                    <p className="text-sm text-gray-700 font-medium leading-relaxed">{finding}</p>
+                                    <div className="flex items-center gap-1 text-[10px] font-bold text-emerald-600 uppercase tracking-widest opacity-0 group-hover/finding:opacity-100 transition-opacity ml-10">
+                                      <Target className="w-3 h-3" /> View Source
+                                    </div>
                                   </div>
                                 ))}
                               </div>
@@ -759,6 +896,58 @@ export default function App() {
                                   </div>
                                 </div>
                               </div>
+                            </CardContent>
+                          </Card>
+                        </TabsContent>
+
+                        <TabsContent value="source" className="mt-0">
+                          <Card className="border-none shadow-sm bg-white rounded-[2rem] overflow-hidden paper-texture h-[600px] flex flex-col">
+                            <CardHeader className="p-8 border-b border-gray-100 flex flex-row items-center justify-between shrink-0">
+                              <div className="flex items-center gap-3">
+                                <div className="bg-purple-50 p-2 rounded-lg">
+                                  <BookOpen className="w-5 h-5 text-purple-600" />
+                                </div>
+                                <div>
+                                  <CardTitle className="text-lg font-bold">Extracted Source Text</CardTitle>
+                                  <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">Verbatim Content from PDF</p>
+                                </div>
+                              </div>
+                              {highlightedQuote && (
+                                <Button 
+                                  variant="ghost" 
+                                  size="sm" 
+                                  className="text-xs font-bold text-muted-foreground hover:text-primary"
+                                  onClick={() => setHighlightedQuote(null)}
+                                >
+                                  <Trash2 className="w-3 h-3 mr-2" /> Clear Highlight
+                                </Button>
+                              )}
+                            </CardHeader>
+                            <CardContent className="p-0 flex-1 overflow-hidden">
+                              <ScrollArea className="h-full p-8">
+                                <div className="max-w-3xl mx-auto">
+                                  <div className="text-gray-700 font-serif leading-relaxed whitespace-pre-wrap text-base">
+                                    {highlightedQuote ? (
+                                      extractedText.split(highlightedQuote).map((part, i, arr) => (
+                                        <React.Fragment key={i}>
+                                          {part}
+                                          {i < arr.length - 1 && (
+                                            <motion.mark 
+                                              initial={{ backgroundColor: 'rgba(234, 179, 8, 0)' }}
+                                              animate={{ backgroundColor: 'rgba(234, 179, 8, 0.3)' }}
+                                              className="rounded px-1 border-b-2 border-amber-500 font-bold text-foreground"
+                                            >
+                                              {highlightedQuote}
+                                            </motion.mark>
+                                          )}
+                                        </React.Fragment>
+                                      ))
+                                    ) : (
+                                      extractedText
+                                    )}
+                                  </div>
+                                </div>
+                              </ScrollArea>
                             </CardContent>
                           </Card>
                         </TabsContent>
