@@ -5,7 +5,7 @@ import {
   Loader2, CheckCircle2, AlertCircle, Copy, History, 
   Trash2, BookOpen, Download, Share2, ExternalLink,
   ChevronRight, Sparkles, Database, Microscope, Info,
-  Layers, Cpu, BarChart3, HelpCircle, Moon, Sun, Video
+  Layers, Cpu, BarChart3, HelpCircle, Moon, Sun, Video, Quote
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -258,10 +258,10 @@ export default function App() {
                 <Brain className="w-5 h-5 text-white" />
               </motion.div>
               <div>
-                <h1 className="text-lg font-black tracking-tighter leading-none ai-gradient-text uppercase">Data mine AI</h1>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
-                  <p className="text-[9px] text-muted-foreground font-bold uppercase tracking-[0.2em]">Neural Engine Active</p>
+                <h1 className="text-2xl font-black tracking-tighter leading-none ai-gradient-text uppercase">Data mine AI</h1>
+                <div className="flex items-center gap-2 mt-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
+                  <p className="text-xs text-muted-foreground font-bold uppercase tracking-[0.2em]">Neural Engine Active</p>
                 </div>
               </div>
             </div>
@@ -269,12 +269,12 @@ export default function App() {
             <div className="flex items-center gap-2 md:gap-4">
               <div className="hidden md:flex items-center gap-6 mr-6 border-r border-white/10 pr-6">
                 <div className="flex flex-col items-end">
-                  <span className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest">System Load</span>
-                  <span className="text-[10px] font-mono font-bold text-primary">12.4 TFLOPS</span>
+                  <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">System Load</span>
+                  <span className="text-xs font-mono font-bold text-primary">12.4 TFLOPS</span>
                 </div>
                 <div className="flex flex-col items-end">
-                  <span className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest">Mining Depth</span>
-                  <span className="text-[10px] font-mono font-bold text-primary">LAYER_07</span>
+                  <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Mining Depth</span>
+                  <span className="text-xs font-mono font-bold text-primary">LAYER_07</span>
                 </div>
               </div>
 
@@ -294,8 +294,8 @@ export default function App() {
                   <PopoverContent className="w-80 p-3 glass-card border-white/20" align="end">
                     <div className="space-y-3">
                       <div className="flex items-center justify-between px-1">
-                        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Environment Select</p>
-                        <Badge variant="outline" className="text-[8px] font-bold border-primary/30 text-primary">3D_CORE</Badge>
+                        <p className="text-xs font-black text-muted-foreground uppercase tracking-[0.2em]">Environment Select</p>
+                        <Badge variant="outline" className="text-[10px] font-bold border-primary/30 text-primary">3D_CORE</Badge>
                       </div>
                       <div className="grid grid-cols-2 gap-2">
                         {videoOptions.map((option, index) => (
@@ -319,7 +319,7 @@ export default function App() {
                               "absolute inset-0 flex items-end p-2 transition-opacity duration-300",
                               videoIndex === index ? "bg-primary/20" : "bg-black/40 opacity-0 group-hover/thumb:opacity-100"
                             )}>
-                              <span className="text-[8px] font-bold text-white uppercase tracking-widest truncate">{option.name}</span>
+                              <span className="text-xs font-bold text-white uppercase tracking-widest truncate">{option.name}</span>
                             </div>
                             {videoIndex === index && (
                               <div className="absolute top-1 right-1">
@@ -360,7 +360,7 @@ export default function App() {
               >
                 <HelpCircle className="w-4 h-4 mr-2" /> How it works
               </Button>
-              <Badge variant="outline" className="font-mono text-[10px] uppercase tracking-wider opacity-60 border-white/10 text-primary">
+              <Badge variant="outline" className="font-mono text-xs uppercase tracking-wider opacity-80 border-white/10 text-primary">
                 v1.6.0 Pro
               </Badge>
             </div>
@@ -384,16 +384,16 @@ export default function App() {
                       <Info className="w-5 h-5" /> How to use Data mine AI
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <CardContent className="p-8 grid grid-cols-1 md:grid-cols-3 gap-6">
                     {[
-                      { title: '1. Upload PDF', desc: 'Drag and drop your research paper. Our system extracts the raw text directly in your browser.', icon: <FileUp className="w-6 h-6 text-blue-500" /> },
-                      { title: '2. AI Data Mining', desc: 'Gemini 1.5 Flash mines the text for models, datasets, methodology, and key insights.', icon: <Database className="w-6 h-6 text-purple-500" /> },
-                      { title: '3. Explore Insights', desc: 'Navigate through structured tabs to see summaries, findings, and future research paths.', icon: <Microscope className="w-6 h-6 text-pink-500" /> },
+                      { title: '1. Upload PDF', desc: 'Drag and drop your research paper. Our system extracts the raw text directly in your browser.', icon: <FileUp className="w-8 h-8 text-blue-500" /> },
+                      { title: '2. AI Data Mining', desc: 'Gemini 1.5 Flash mines the text for models, datasets, methodology, and key insights.', icon: <Database className="w-8 h-8 text-purple-500" /> },
+                      { title: '3. Explore Insights', desc: 'Navigate through structured tabs to see summaries, findings, and future research paths.', icon: <Microscope className="w-8 h-8 text-pink-500" /> },
                     ].map((step, i) => (
-                      <div key={i} className="bg-background/40 p-4 rounded-xl border border-border/50 space-y-2 backdrop-blur-sm">
-                        <div className="mb-2">{step.icon}</div>
-                        <h4 className="font-bold text-foreground">{step.title}</h4>
-                        <p className="text-xs text-muted-foreground leading-relaxed">{step.desc}</p>
+                      <div key={i} className="bg-background/20 p-6 rounded-2xl border border-white/5 space-y-4 backdrop-blur-md hover:bg-background/30 transition-all group hover:-translate-y-1">
+                        <div className="mb-2 bg-white/5 w-14 h-14 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">{step.icon}</div>
+                        <h4 className="text-xl font-black text-foreground uppercase tracking-tight">{step.title}</h4>
+                        <p className="text-sm text-muted-foreground leading-relaxed font-medium">{step.desc}</p>
                       </div>
                     ))}
                   </CardContent>
@@ -410,7 +410,7 @@ export default function App() {
               {/* Upload Section */}
               <section className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-sm font-bold text-gray-400 uppercase tracking-widest">Document Source</h2>
+                  <h2 className="text-sm font-bold text-gray-500 uppercase tracking-widest">Document Source</h2>
                   {file && (
                     <Button variant="ghost" size="sm" className="h-7 text-xs text-red-500 hover:text-red-600 hover:bg-red-50" onClick={() => setFile(null)}>
                       <Trash2 className="w-3 h-3 mr-1.5" /> Clear
@@ -453,7 +453,7 @@ export default function App() {
                             <p className="text-sm font-black text-foreground uppercase tracking-tighter truncate max-w-[200px] mb-1">
                               {file.name}
                             </p>
-                            <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">
+                            <p className="text-xs text-muted-foreground uppercase font-bold tracking-widest">
                               {(file.size / (1024 * 1024)).toFixed(2)} MB &bull; PDF
                             </p>
                           </motion.div>
@@ -464,7 +464,7 @@ export default function App() {
                             </div>
                             <div className="space-y-1">
                               <p className="text-sm font-black text-foreground uppercase tracking-tighter">Neural Interface Dropzone</p>
-                              <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">PDF_FORMAT_ONLY</p>
+                              <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest">PDF_FORMAT_ONLY</p>
                             </div>
                           </>
                         )}
@@ -473,7 +473,7 @@ export default function App() {
 
                     {isAnalyzing && (
                       <div className="space-y-3">
-                        <div className="flex justify-between text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                        <div className="flex justify-between text-xs font-bold text-muted-foreground uppercase tracking-widest">
                           <span>{step === 'extracting' ? 'Extracting Text' : 'AI Mining'}</span>
                           <span>{progress}%</span>
                         </div>
@@ -504,7 +504,7 @@ export default function App() {
               {/* History Section */}
               <section className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-sm font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                  <h2 className="text-sm font-bold text-gray-500 uppercase tracking-widest flex items-center gap-2">
                     <History className="w-3.5 h-3.5" /> Mining History
                   </h2>
                 </div>
@@ -530,8 +530,8 @@ export default function App() {
                                 <FileText className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
                               </div>
                               <div className="min-w-0">
-                                <p className="text-xs font-bold text-foreground truncate pr-4">{item.fileName}</p>
-                                <p className="text-[10px] text-muted-foreground mt-0.5">{item.date}</p>
+                                <p className="text-base font-bold text-foreground truncate pr-4">{item.fileName}</p>
+                                <p className="text-sm text-muted-foreground mt-0.5">{item.date}</p>
                               </div>
                             </div>
                             <Button 
@@ -596,7 +596,7 @@ export default function App() {
                           className="glass-card p-4 rounded-2xl flex flex-col items-center gap-2"
                         >
                           <div className="text-primary">{feature.icon}</div>
-                          <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{feature.label}</span>
+                          <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{feature.label}</span>
                         </motion.div>
                       ))}
                     </div>
@@ -657,8 +657,8 @@ export default function App() {
                           </div>
                         </div>
                         <div>
-                          <h2 className="text-2xl font-black text-foreground tracking-tighter uppercase">Mining Sequence Complete</h2>
-                          <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-[0.2em]">Neural Analysis Synchronized</p>
+                          <h2 className="text-4xl font-black text-foreground tracking-tighter uppercase leading-none">Mining Sequence Complete</h2>
+                          <p className="text-sm text-muted-foreground font-bold uppercase tracking-[0.3em] mt-2">Neural Analysis Synchronized & Validated</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
@@ -671,160 +671,189 @@ export default function App() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                      <Card className="md:col-span-1 border-none shadow-sm glass-card rounded-[2rem] overflow-hidden group holographic-border">
-                        <div className="aspect-[3/4] relative overflow-hidden">
-                          <img 
-                            src={`https://picsum.photos/seed/${analysis?.summary.substring(0, 10)}/400/600`} 
-                            alt="Paper Preview" 
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                            referrerPolicy="no-referrer"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-6">
-                            <p className="text-white text-[10px] font-bold uppercase tracking-widest opacity-80 mb-1">Document Preview</p>
-                            <p className="text-white text-xs font-bold truncate">{file?.name || 'Research Paper'}</p>
-                          </div>
-                        </div>
-                      </Card>
-
-                      <div className="md:col-span-3">
-                        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                          <TabsList className="flex w-full bg-muted/50 p-1.5 rounded-2xl h-14 mb-8 overflow-x-auto no-scrollbar backdrop-blur-sm border border-white/5">
-                            {[
-                              { value: 'mining', label: 'AI Mining', icon: <Database className="w-4 h-4" /> },
-                              { value: 'method', label: 'Methodology', icon: <Microscope className="w-4 h-4" /> },
-                              { value: 'findings', label: 'Findings', icon: <BarChart3 className="w-4 h-4" /> },
-                              { value: 'summary', label: 'Summary', icon: <FileText className="w-4 h-4" /> },
-                              { value: 'source', label: 'Source Text', icon: <BookOpen className="w-4 h-4" /> },
-                            ].map((tab) => (
-                              <TabsTrigger 
-                                key={tab.value}
-                                value={tab.value} 
-                                className="flex-1 min-w-[120px] rounded-xl data-[state=active]:bg-card data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all font-black text-[10px] uppercase tracking-widest flex items-center gap-2 btn-3d"
-                              >
-                                {tab.icon}
-                                <span>{tab.label}</span>
-                              </TabsTrigger>
-                            ))}
-                          </TabsList>
-
-                          <div className="min-h-[400px]">
-                            <TabsContent value="mining" className="mt-0 space-y-6">
-                              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                {[
-                                  { title: 'Models', items: analysis?.dataMining.modelsUsed, icon: <Cpu className="w-4 h-4 text-blue-500" />, bg: 'bg-blue-500/10' },
-                                  { title: 'Datasets', items: analysis?.dataMining.datasets, icon: <Layers className="w-4 h-4 text-purple-500" />, bg: 'bg-purple-500/10' },
-                                  { title: 'Metrics', items: analysis?.dataMining.metrics, icon: <BarChart3 className="w-4 h-4 text-pink-500" />, bg: 'bg-pink-500/10' },
-                                ].map((box, i) => (
-                                  <Card key={i} className="border-none shadow-sm glass-card rounded-2xl overflow-hidden group/box hover:-translate-y-1 transition-transform duration-300">
-                                    <CardHeader className={`${box.bg} py-3 px-4 border-b border-white/5`}>
-                                      <CardTitle className="text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
-                                        {box.icon} {box.title}
-                                      </CardTitle>
-                                    </CardHeader>
-                                    <CardContent className="p-4">
-                                      <div className="flex flex-wrap gap-1.5">
-                                        {box.items?.map((item, j) => (
-                                          <Badge key={j} variant="secondary" className="bg-muted/50 text-[10px] text-muted-foreground border-border font-bold px-2 py-0">
-                                            {item}
-                                          </Badge>
-                                        ))}
-                                      </div>
-                                    </CardContent>
-                                  </Card>
-                                ))}
+                    <div className="space-y-10">
+                      {/* Analysis Header & Preview Row */}
+                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+                        <Card className="lg:col-span-3 border-none shadow-xl glass-card rounded-[2.5rem] overflow-hidden group holographic-border sticky top-24">
+                          <div className="aspect-[3/4] relative overflow-hidden">
+                            <img 
+                              src={`https://picsum.photos/seed/${analysis?.summary.substring(0, 10)}/600/800`} 
+                              alt="Paper Preview" 
+                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                              referrerPolicy="no-referrer"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-8">
+                              <div className="flex items-center gap-2 mb-2">
+                                <Badge className="bg-primary/80 backdrop-blur-md text-[10px] font-bold uppercase tracking-widest border-none">Verified Source</Badge>
                               </div>
-                              
-                              <Card className="border-none shadow-sm glass-card rounded-[2rem] overflow-hidden">
-                                <CardHeader className="p-8 pb-0 flex flex-row items-center justify-between">
-                                  <CardTitle className="text-lg font-black uppercase tracking-tighter flex items-center gap-2">
-                                    <Lightbulb className="w-5 h-5 text-amber-500" /> Key Insights
-                                  </CardTitle>
-                                </CardHeader>
-                                <CardContent className="p-8">
-                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {analysis?.keyInsights.map((insight, i) => (
-                                      <div 
-                                        key={i} 
-                                        className="flex flex-col gap-3 p-4 bg-amber-500/10 rounded-xl border border-amber-500/20 group/insight cursor-pointer hover:bg-amber-500/20 transition-all hover:-translate-y-1"
-                                        onClick={() => {
-                                          if (analysis?.quotes.insights[i]) {
-                                            setHighlightedQuote(analysis.quotes.insights[i]);
-                                            setActiveTab('source');
-                                            toast.info('Jumping to source text...');
-                                          }
-                                        }}
-                                      >
-                                        <div className="flex gap-3">
-                                          <CheckCircle2 className="w-4 h-4 text-amber-500 mt-0.5 flex-shrink-0" />
-                                          <p className="text-sm text-foreground font-medium leading-relaxed">{insight}</p>
+                              <p className="text-white text-xs font-bold uppercase tracking-widest opacity-70 mb-1">Document Identity</p>
+                              <p className="text-white text-base font-black truncate tracking-tight">{file?.name || 'Research Paper'}</p>
+                            </div>
+                          </div>
+                        </Card>
+
+                        <div className="lg:col-span-9 space-y-8">
+                          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                            <TabsList className="flex w-full bg-muted/30 p-2 rounded-[2rem] h-16 mb-10 overflow-x-auto no-scrollbar backdrop-blur-md border border-white/5 shadow-inner">
+                              {[
+                                { value: 'mining', label: 'Neural Mining', icon: <Database className="w-5 h-5" /> },
+                                { value: 'method', label: 'Methodology', icon: <Microscope className="w-5 h-5" /> },
+                                { value: 'findings', label: 'Key Findings', icon: <BarChart3 className="w-5 h-5" /> },
+                                { value: 'summary', label: 'Executive Summary', icon: <FileText className="w-5 h-5" /> },
+                                { value: 'source', label: 'Source Text', icon: <BookOpen className="w-5 h-5" /> },
+                              ].map((tab) => (
+                                <TabsTrigger 
+                                  key={tab.value}
+                                  value={tab.value} 
+                                  className="flex-1 min-w-[140px] rounded-2xl data-[state=active]:bg-card data-[state=active]:text-primary data-[state=active]:shadow-md transition-all font-black text-sm uppercase tracking-widest flex items-center gap-3 btn-3d"
+                                >
+                                  {tab.icon}
+                                  <span>{tab.label}</span>
+                                </TabsTrigger>
+                              ))}
+                            </TabsList>
+
+                            <div className="min-h-[500px] animate-in fade-in slide-in-from-bottom-4 duration-500">
+                              <TabsContent value="mining" className="mt-0 space-y-10">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                  {[
+                                    { title: 'AI Models', items: analysis?.dataMining.modelsUsed, icon: <Cpu className="w-6 h-6 text-blue-600" />, bg: 'bg-blue-50', desc: 'Neural architectures utilized' },
+                                    { title: 'Database Sources', items: analysis?.dataMining.datasets, icon: <Layers className="w-6 h-6 text-purple-600" />, bg: 'bg-purple-50', desc: 'Training & validation sets' },
+                                    { title: 'Performance Metrics', items: analysis?.dataMining.metrics, icon: <BarChart3 className="w-6 h-6 text-pink-600" />, bg: 'bg-pink-50', desc: 'Statistical benchmarks' },
+                                  ].map((box, i) => (
+                                    <Card key={i} className="border-none shadow-xl bg-white rounded-[2.5rem] overflow-hidden group/box hover:-translate-y-2 transition-all duration-500">
+                                      <CardHeader className={`${box.bg} py-6 px-8 border-b border-gray-100`}>
+                                        <div className="flex items-center gap-4">
+                                          <div className="p-2.5 bg-white rounded-xl shadow-sm">{box.icon}</div>
+                                          <div>
+                                            <CardTitle className="text-sm font-black uppercase tracking-[0.2em] text-gray-900">
+                                              {box.title}
+                                            </CardTitle>
+                                            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-0.5">{box.desc}</p>
+                                          </div>
                                         </div>
-                                        <div className="flex items-center gap-1 text-[10px] font-bold text-amber-600 uppercase tracking-widest opacity-0 group-hover/insight:opacity-100 transition-opacity">
-                                          <Target className="w-3 h-3" /> View Source
+                                      </CardHeader>
+                                      <CardContent className="p-8">
+                                        <div className="flex flex-wrap gap-3">
+                                          {box.items?.map((item, j) => (
+                                            <Badge key={j} variant="secondary" className="bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 border-gray-200 font-bold px-5 py-2 rounded-xl transition-all">
+                                              {item}
+                                            </Badge>
+                                          ))}
                                         </div>
+                                      </CardContent>
+                                    </Card>
+                                  ))}
+                                </div>
+                                
+                                <Card className="border-none shadow-lg glass-card rounded-[3rem] overflow-hidden">
+                                  <CardHeader className="p-12 pb-8 flex flex-row items-center justify-between">
+                                    <CardTitle className="text-2xl font-black uppercase tracking-tighter flex items-center gap-4">
+                                      <div className="p-3 bg-amber-500/20 rounded-2xl">
+                                        <Lightbulb className="w-8 h-8 text-amber-500" />
                                       </div>
-                                    ))}
-                                  </div>
-                                </CardContent>
-                              </Card>
-                            </TabsContent>
+                                      Key Intelligence Insights
+                                    </CardTitle>
+                                  </CardHeader>
+                                  <CardContent className="p-12 pt-0">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                      {analysis?.keyInsights.map((insight, i) => (
+                                        <div 
+                                          key={i} 
+                                          className="flex flex-col gap-5 p-8 bg-amber-500/5 rounded-[2rem] border border-amber-500/10 group/insight cursor-pointer hover:bg-amber-500/10 transition-all hover:-translate-y-2 shadow-sm"
+                                          onClick={() => {
+                                            if (analysis?.quotes.insights[i]) {
+                                              setHighlightedQuote(analysis.quotes.insights[i]);
+                                              setActiveTab('source');
+                                              toast.info('Jumping to source text...');
+                                            }
+                                          }}
+                                        >
+                                          <div className="flex gap-5">
+                                            <div className="mt-1.5 flex-shrink-0">
+                                              <CheckCircle2 className="w-6 h-6 text-amber-500" />
+                                            </div>
+                                            <p className="text-xl text-foreground font-medium leading-relaxed tracking-tight">{insight}</p>
+                                          </div>
+                                          <div className="flex items-center gap-2 text-sm font-bold text-amber-600 uppercase tracking-widest opacity-0 group-hover/insight:opacity-100 transition-all translate-x-[-10px] group-hover:translate-x-0">
+                                            <Target className="w-5 h-5" /> View Source Reference
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </CardContent>
+                                </Card>
+                              </TabsContent>
                             {/* ... rest of the content ... */}
 
                         <TabsContent value="method" className="mt-0">
-                          <Card className="border-none shadow-sm bg-white rounded-[2rem] overflow-hidden paper-texture">
-                            <CardHeader className="p-10 pb-4">
-                              <div className="flex items-center gap-3">
-                                <div className="bg-blue-50 p-2 rounded-lg">
-                                  <Microscope className="w-5 h-5 text-blue-600" />
+                          <Card className="border-none paper-texture rounded-[3rem] overflow-hidden">
+                            <CardHeader className="p-12 pb-6">
+                              <div className="flex items-center gap-4">
+                                <div className="bg-blue-600 p-3 rounded-2xl shadow-lg shadow-blue-200">
+                                  <Microscope className="w-8 h-8 text-white" />
                                 </div>
-                                <CardTitle className="text-xl font-bold">Research Methodology</CardTitle>
+                                <div>
+                                  <span className="section-label">Procedural Analysis & Framework</span>
+                                  <CardTitle className="text-3xl font-black uppercase tracking-tight text-gray-900">Research Methodology</CardTitle>
+                                </div>
                               </div>
                             </CardHeader>
-                            <CardContent className="p-10 pt-4">
-                              <p className="text-gray-800 leading-relaxed text-lg font-serif italic">
-                                {analysis?.methodology}
-                              </p>
+                            <CardContent className="p-12 pt-0 space-y-12">
+                              <div className="scholarly-border pl-10 py-4 bg-gray-50/50 rounded-r-[2rem]">
+                                <p className="scholarly-text text-3xl">
+                                  {analysis?.methodology}
+                                </p>
+                              </div>
                               
-                              <Button 
-                                variant="outline" 
-                                size="sm" 
-                                className="mt-6 rounded-xl border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100"
-                                onClick={() => {
-                                  if (analysis?.quotes.methodology) {
-                                    setHighlightedQuote(analysis.quotes.methodology);
-                                    setActiveTab('source');
-                                    toast.info('Jumping to methodology in source...');
-                                  }
-                                }}
-                              >
-                                <Target className="w-4 h-4 mr-2" /> View Methodology in Source
-                              </Button>
-
-                              <div className="mt-10 space-y-4">
-                                <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Identified Limitations</h4>
-                                <div className="flex flex-wrap gap-3">
-                                  {analysis?.limitations.map((limit, i) => (
-                                    <div key={i} className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 rounded-full text-xs font-bold border border-red-100">
-                                      <AlertCircle className="w-3 h-3" /> {limit}
-                                    </div>
-                                  ))}
+                              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pt-10 border-t border-gray-100">
+                                <div className="space-y-6 flex-1">
+                                  <span className="section-label">Identified Constraints</span>
+                                  <div className="flex flex-wrap gap-4">
+                                    {analysis?.limitations.map((limit, i) => (
+                                      <div key={i} className="flex items-center gap-3 px-6 py-3 bg-red-50 text-red-700 rounded-2xl text-base font-black border border-red-100 shadow-sm">
+                                        <AlertCircle className="w-5 h-5" /> {limit}
+                                      </div>
+                                    ))}
+                                  </div>
                                 </div>
+                                
+                                <Button 
+                                  variant="outline" 
+                                  size="lg" 
+                                  className="rounded-2xl border-blue-200 bg-white text-blue-700 hover:bg-blue-50 font-black uppercase tracking-widest px-10 h-16 shadow-xl hover:shadow-2xl transition-all"
+                                  onClick={() => {
+                                    if (analysis?.quotes.methodology) {
+                                      setHighlightedQuote(analysis.quotes.methodology);
+                                      setActiveTab('source');
+                                      toast.info('Jumping to methodology in source...');
+                                    }
+                                  }}
+                                >
+                                  <Target className="w-6 h-6 mr-3" /> View Source
+                                </Button>
                               </div>
                             </CardContent>
                           </Card>
                         </TabsContent>
 
                         <TabsContent value="findings" className="mt-0">
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <Card className="border-none shadow-sm bg-white rounded-[2rem] p-8">
-                              <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                                <CheckCircle2 className="w-5 h-5 text-emerald-600" /> Key Findings
-                              </h3>
-                              <div className="space-y-4">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <Card className="border-none shadow-2xl bg-white rounded-[3.5rem] p-12 space-y-10">
+                              <div className="flex items-center gap-5">
+                                <div className="p-4 bg-emerald-600 rounded-2xl shadow-lg shadow-emerald-200">
+                                  <CheckCircle2 className="w-8 h-8 text-white" />
+                                </div>
+                                <div>
+                                  <span className="section-label">Validated Discoveries</span>
+                                  <h3 className="text-3xl font-black uppercase tracking-tight text-gray-900">Key Findings</h3>
+                                </div>
+                              </div>
+                              <div className="space-y-8">
                                 {analysis?.keyFindings.map((finding, i) => (
                                   <div 
                                     key={i} 
-                                    className="flex flex-col gap-4 p-4 bg-emerald-50/30 rounded-2xl border border-emerald-50 group/finding cursor-pointer hover:bg-emerald-50 transition-colors"
+                                    className="flex flex-col gap-6 p-8 bg-emerald-50/30 rounded-[2.5rem] border border-emerald-100 group/finding cursor-pointer hover:bg-emerald-50 transition-all hover:-translate-y-2 shadow-sm"
                                     onClick={() => {
                                       if (analysis?.quotes.findings[i]) {
                                         setHighlightedQuote(analysis.quotes.findings[i]);
@@ -833,31 +862,37 @@ export default function App() {
                                       }
                                     }}
                                   >
-                                    <div className="flex gap-4">
-                                      <div className="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center text-[10px] font-bold text-emerald-600 flex-shrink-0">
+                                    <div className="flex gap-6">
+                                      <div className="w-12 h-12 bg-emerald-600 rounded-2xl flex items-center justify-center text-xl font-black text-white flex-shrink-0 shadow-md">
                                         {i + 1}
                                       </div>
-                                      <p className="text-sm text-gray-700 font-medium leading-relaxed">{finding}</p>
+                                      <p className="text-xl text-gray-900 font-bold leading-relaxed tracking-tight">{finding}</p>
                                     </div>
-                                    <div className="flex items-center gap-1 text-[10px] font-bold text-emerald-600 uppercase tracking-widest opacity-0 group-hover/finding:opacity-100 transition-opacity ml-10">
-                                      <Target className="w-3 h-3" /> View Source
+                                    <div className="flex items-center gap-2 text-sm font-black text-emerald-600 uppercase tracking-[0.2em] opacity-0 group-hover/finding:opacity-100 transition-all translate-x-[-10px] group-hover:translate-x-0 ml-18">
+                                      <Target className="w-5 h-5" /> View Source Reference
                                     </div>
                                   </div>
                                 ))}
                               </div>
                             </Card>
                             
-                            <Card className="border-none shadow-sm bg-white rounded-[2rem] p-8">
-                              <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                                <Target className="w-5 h-5 text-red-600" /> Problem Statements
-                              </h3>
-                              <div className="space-y-4">
+                            <Card className="border-none shadow-2xl bg-white rounded-[3.5rem] p-12 space-y-10">
+                              <div className="flex items-center gap-5">
+                                <div className="p-4 bg-red-600 rounded-2xl shadow-lg shadow-red-200">
+                                  <Target className="w-8 h-8 text-white" />
+                                </div>
+                                <div>
+                                  <span className="section-label">Identified Challenges</span>
+                                  <h3 className="text-3xl font-black uppercase tracking-tight text-gray-900">Critical Problems</h3>
+                                </div>
+                              </div>
+                              <div className="space-y-8">
                                 {analysis?.problemStatements.map((problem, i) => (
-                                  <div key={i} className="flex gap-4 p-4 bg-red-50/30 rounded-2xl border border-red-50">
-                                    <div className="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center text-[10px] font-bold text-red-600 flex-shrink-0">
+                                  <div key={i} className="flex gap-6 p-8 bg-red-50/30 rounded-[2.5rem] border border-red-100 hover:bg-red-50 transition-all shadow-sm">
+                                    <div className="w-12 h-12 bg-red-600 rounded-2xl flex items-center justify-center text-xl font-black text-white flex-shrink-0 shadow-md">
                                       {i + 1}
                                     </div>
-                                    <p className="text-sm text-gray-700 font-medium leading-relaxed">{problem}</p>
+                                    <p className="text-xl text-gray-900 font-bold leading-relaxed tracking-tight">{problem}</p>
                                   </div>
                                 ))}
                               </div>
@@ -866,30 +901,40 @@ export default function App() {
                         </TabsContent>
 
                         <TabsContent value="summary" className="mt-0">
-                          <Card className="border-none shadow-sm bg-white rounded-[2rem] overflow-hidden paper-texture">
-                            <CardHeader className="p-10 pb-4">
-                              <div className="flex items-center gap-3">
-                                <div className="bg-blue-50 p-2 rounded-lg">
-                                  <FileText className="w-5 h-5 text-blue-600" />
+                          <Card className="border-none paper-texture rounded-[3.5rem] overflow-hidden">
+                            <CardHeader className="p-12 pb-6">
+                              <div className="flex items-center gap-5">
+                                <div className="bg-indigo-600 p-4 rounded-2xl shadow-lg shadow-indigo-200">
+                                  <FileText className="w-8 h-8 text-white" />
                                 </div>
-                                <CardTitle className="text-xl font-bold">Executive Summary</CardTitle>
+                                <div>
+                                  <span className="section-label">High-Level Intelligence Overview</span>
+                                  <CardTitle className="text-3xl font-black uppercase tracking-tight text-gray-900">Executive Summary</CardTitle>
+                                </div>
                               </div>
                             </CardHeader>
-                            <CardContent className="p-10 pt-4">
-                              <p className="text-gray-800 leading-relaxed text-xl font-serif italic">
-                                "{analysis?.summary}"
-                              </p>
-                              <div className="mt-12 p-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-[2rem] text-white relative overflow-hidden">
-                                <div className="absolute top-0 right-0 p-12 opacity-10">
-                                  <Sparkles className="w-32 h-32" />
+                            <CardContent className="p-12 pt-0 space-y-16">
+                              <div className="relative p-10 bg-gray-50/50 rounded-[2.5rem] border border-gray-100">
+                                <Quote className="absolute -top-6 -left-6 w-16 h-16 text-indigo-100 -z-10" />
+                                <p className="scholarly-text text-4xl leading-tight tracking-tight">
+                                  {analysis?.summary}
+                                </p>
+                              </div>
+
+                              <div className="p-12 bg-gradient-to-br from-indigo-600 via-blue-600 to-purple-700 rounded-[3rem] text-white relative overflow-hidden shadow-2xl">
+                                <div className="absolute top-0 right-0 p-20 opacity-10">
+                                  <Sparkles className="w-64 h-64" />
                                 </div>
-                                <div className="relative z-10 space-y-4">
-                                  <h4 className="font-bold flex items-center gap-2">
-                                    <ArrowRight className="w-5 h-5" /> Future Research Paths
-                                  </h4>
-                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="relative z-10 space-y-10">
+                                  <div className="flex items-center gap-5">
+                                    <div className="p-3 bg-white/20 rounded-2xl backdrop-blur-md">
+                                      <ArrowRight className="w-8 h-8" />
+                                    </div>
+                                    <h4 className="text-2xl font-black uppercase tracking-[0.2em]">Future Research Trajectories</h4>
+                                  </div>
+                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     {analysis?.futureDirections.map((dir, i) => (
-                                      <div key={i} className="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/10 text-sm font-medium">
+                                      <div key={i} className="bg-white/10 backdrop-blur-xl p-8 rounded-2xl border border-white/20 text-lg font-bold tracking-tight hover:bg-white/20 transition-all cursor-default shadow-sm">
                                         {dir}
                                       </div>
                                     ))}
@@ -901,32 +946,32 @@ export default function App() {
                         </TabsContent>
 
                         <TabsContent value="source" className="mt-0">
-                          <Card className="border-none shadow-sm bg-white rounded-[2rem] overflow-hidden paper-texture h-[600px] flex flex-col">
-                            <CardHeader className="p-8 border-b border-gray-100 flex flex-row items-center justify-between shrink-0">
-                              <div className="flex items-center gap-3">
-                                <div className="bg-purple-50 p-2 rounded-lg">
-                                  <BookOpen className="w-5 h-5 text-purple-600" />
+                          <Card className="border-none paper-texture rounded-[3.5rem] overflow-hidden h-[800px] flex flex-col">
+                            <CardHeader className="p-12 border-b border-gray-100 flex flex-row items-center justify-between shrink-0 bg-white/50 backdrop-blur-md">
+                              <div className="flex items-center gap-5">
+                                <div className="bg-purple-600 p-4 rounded-2xl shadow-lg shadow-purple-200">
+                                  <BookOpen className="w-8 h-8 text-white" />
                                 </div>
                                 <div>
-                                  <CardTitle className="text-lg font-bold">Extracted Source Text</CardTitle>
-                                  <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">Verbatim Content from PDF</p>
+                                  <span className="section-label">Verbatim Content from PDF</span>
+                                  <CardTitle className="text-3xl font-black uppercase tracking-tight text-gray-900">Extracted Source Text</CardTitle>
                                 </div>
                               </div>
                               {highlightedQuote && (
                                 <Button 
                                   variant="ghost" 
-                                  size="sm" 
-                                  className="text-xs font-bold text-muted-foreground hover:text-primary"
+                                  size="lg" 
+                                  className="text-sm font-black text-purple-600 hover:bg-purple-50 uppercase tracking-widest px-8 h-14 rounded-2xl"
                                   onClick={() => setHighlightedQuote(null)}
                                 >
-                                  <Trash2 className="w-3 h-3 mr-2" /> Clear Highlight
+                                  <Trash2 className="w-5 h-5 mr-3" /> Clear Highlight
                                 </Button>
                               )}
                             </CardHeader>
                             <CardContent className="p-0 flex-1 overflow-hidden">
-                              <ScrollArea className="h-full p-8">
-                                <div className="max-w-3xl mx-auto">
-                                  <div className="text-gray-700 font-serif leading-relaxed whitespace-pre-wrap text-base">
+                              <ScrollArea className="h-full p-16">
+                                <div className="max-w-4xl mx-auto">
+                                  <div className="scholarly-text text-3xl leading-[2] tracking-tight">
                                     {highlightedQuote ? (
                                       extractedText.split(highlightedQuote).map((part, i, arr) => (
                                         <React.Fragment key={i}>
@@ -955,7 +1000,8 @@ export default function App() {
                     </Tabs>
                   </div>
                 </div>
-              </motion.div>
+              </div>
+            </motion.div>
             )}
           </AnimatePresence>
         </div>
@@ -973,11 +1019,11 @@ export default function App() {
                 <span className="text-sm font-bold text-foreground">Data mine AI</span>
               </div>
               <div className="flex items-center gap-8">
-                <a href="#" className="text-xs font-bold text-gray-400 uppercase tracking-widest hover:text-gray-900 transition-colors">Documentation</a>
-                <a href="#" className="text-xs font-bold text-gray-400 uppercase tracking-widest hover:text-gray-900 transition-colors">Privacy</a>
-                <a href="#" className="text-xs font-bold text-gray-400 uppercase tracking-widest hover:text-gray-900 transition-colors">API</a>
+                <a href="#" className="text-xs font-bold text-gray-500 uppercase tracking-widest hover:text-gray-900 transition-colors">Documentation</a>
+                <a href="#" className="text-xs font-bold text-gray-500 uppercase tracking-widest hover:text-gray-900 transition-colors">Privacy</a>
+                <a href="#" className="text-xs font-bold text-gray-500 uppercase tracking-widest hover:text-gray-900 transition-colors">API</a>
               </div>
-              <p className="text-[10px] text-gray-300 font-mono uppercase tracking-[0.2em]">
+              <p className="text-xs text-gray-500 font-mono uppercase tracking-[0.2em]">
                 &copy; 2024 Research Intelligence Lab
               </p>
             </div>
