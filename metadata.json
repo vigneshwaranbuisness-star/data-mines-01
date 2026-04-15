@@ -1,0 +1,6 @@
+{
+  "name": "ScholarScan AI",
+  "description": "AI-powered research paper analyzer that extracts insights, summaries, and future directions from PDF documents.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
