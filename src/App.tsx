@@ -369,35 +369,50 @@ export default function App() {
 
         <main className="max-w-7xl mx-auto px-6 py-12">
           
-          {/* How to Use Section */}
+          {/* Hero Section */}
+          {!analysis && !isAnalyzing && (
+            <motion.section 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center mb-20 space-y-8"
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full border border-primary/20 mb-4">
+                <Sparkles className="w-4 h-4 text-primary" />
+                <span className="text-xs font-black uppercase tracking-[0.2em] text-primary">Next-Gen Research Intelligence</span>
+              </div>
+              <h2 className="text-6xl md:text-8xl font-black tracking-tighter text-balance leading-[0.9] ai-gradient-text uppercase">
+                Mine Deep Insights <br /> From Any Paper
+              </h2>
+              <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto font-medium leading-relaxed text-balance">
+                Deploy advanced neural clusters to extract models, datasets, and technical frameworks from complex research documents in seconds.
+              </p>
+            </motion.section>
+          )}
+
+          {/* How to Use Section (Integrated) */}
           <AnimatePresence>
             {showHowTo && (
               <motion.section 
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                className="mb-12 overflow-hidden"
+                className="mb-20 overflow-hidden"
               >
-                <Card className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-primary/20 shadow-sm backdrop-blur-sm">
-                  <CardHeader>
-                    <CardTitle className="text-primary flex items-center gap-2">
-                      <Info className="w-5 h-5" /> How to use Data mine AI
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {[
-                      { title: '1. Upload PDF', desc: 'Drag and drop your research paper. Our system extracts the raw text directly in your browser.', icon: <FileUp className="w-8 h-8 text-blue-500" /> },
-                      { title: '2. AI Data Mining', desc: 'Gemini 1.5 Flash mines the text for models, datasets, methodology, and key insights.', icon: <Database className="w-8 h-8 text-purple-500" /> },
-                      { title: '3. Explore Insights', desc: 'Navigate through structured tabs to see summaries, findings, and future research paths.', icon: <Microscope className="w-8 h-8 text-pink-500" /> },
-                    ].map((step, i) => (
-                      <div key={i} className="bg-background/20 p-6 rounded-2xl border border-white/5 space-y-4 backdrop-blur-md hover:bg-background/30 transition-all group hover:-translate-y-1">
-                        <div className="mb-2 bg-white/5 w-14 h-14 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">{step.icon}</div>
-                        <h4 className="text-xl font-black text-foreground uppercase tracking-tight">{step.title}</h4>
-                        <p className="text-sm text-muted-foreground leading-relaxed font-medium">{step.desc}</p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {[
+                    { title: '1. Neural Upload', desc: 'Securely upload your PDF. Text extraction happens locally in your neural interface.', icon: <FileUp className="w-8 h-8 text-blue-500" /> },
+                    { title: '2. AI Synthesis', desc: 'Gemini 2.0 Flash synthesizes the content, identifying core architectures and metrics.', icon: <Database className="w-8 h-8 text-purple-500" /> },
+                    { title: '3. Data Mining', desc: 'Explore structured findings, methodology frameworks, and future research paths.', icon: <Microscope className="w-8 h-8 text-pink-500" /> },
+                  ].map((step, i) => (
+                    <Card key={i} className="executive-card p-10 space-y-6 group hover:-translate-y-2 transition-all duration-500">
+                      <div className="w-16 h-16 bg-muted rounded-[1.5rem] flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">{step.icon}</div>
+                      <div className="space-y-3">
+                        <h4 className="text-2xl font-black text-foreground uppercase tracking-tight">{step.title}</h4>
+                        <p className="text-base text-muted-foreground leading-relaxed font-medium">{step.desc}</p>
                       </div>
-                    ))}
-                  </CardContent>
-                </Card>
+                    </Card>
+                  ))}
+                </div>
               </motion.section>
             )}
           </AnimatePresence>
@@ -410,22 +425,22 @@ export default function App() {
               {/* Upload Section */}
               <section className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-sm font-bold text-gray-500 uppercase tracking-widest">Document Source</h2>
+                  <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Document Source</h2>
                   {file && (
-                    <Button variant="ghost" size="sm" className="h-7 text-xs text-red-500 hover:text-red-600 hover:bg-red-50" onClick={() => setFile(null)}>
+                    <Button variant="ghost" size="sm" className="h-7 text-xs text-red-500 hover:text-red-600 hover:bg-red-500/10" onClick={() => setFile(null)}>
                       <Trash2 className="w-3 h-3 mr-1.5" /> Clear
                     </Button>
                   )}
                 </div>
                 
-                <Card className="border-white/10 shadow-sm overflow-hidden glass-card holographic-border">
-                  <CardContent className="p-6 space-y-6">
+                <Card className="border-none executive-card overflow-hidden holographic-border">
+                  <CardContent className="p-10 space-y-8">
                     <div 
                       onDragOver={handleDragOver}
                       onDragLeave={handleDragLeave}
                       onDrop={handleDrop}
                       className={`
-                        relative border-2 border-dashed rounded-2xl p-10 transition-all duration-300 flex flex-col items-center justify-center gap-4
+                        relative border-2 border-dashed rounded-[2rem] p-16 transition-all duration-500 flex flex-col items-center justify-center gap-6
                         ${isDragging ? 'border-primary bg-primary/10 scale-[0.98]' : 'border-border hover:border-primary/50 hover:bg-muted/50'}
                         ${file ? 'bg-primary/5 border-primary/20' : ''}
                       `}
@@ -482,7 +497,7 @@ export default function App() {
                     )}
 
                     <Button 
-                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl h-12 font-black uppercase tracking-widest shadow-lg shadow-primary/20 btn-3d"
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-2xl h-16 font-black uppercase tracking-widest shadow-2xl shadow-primary/30 btn-3d text-lg"
                       disabled={!file || isAnalyzing}
                       onClick={handleAnalyze}
                     >
@@ -504,7 +519,7 @@ export default function App() {
               {/* History Section */}
               <section className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-sm font-bold text-gray-500 uppercase tracking-widest flex items-center gap-2">
+                  <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
                     <History className="w-3.5 h-3.5" /> Mining History
                   </h2>
                 </div>
@@ -692,20 +707,37 @@ export default function App() {
                           </div>
                         </Card>
 
-                        <div className="lg:col-span-9 space-y-8">
+                        <div className="lg:col-span-9 space-y-10">
+                          <div className="flex flex-col gap-2">
+                            <span className="section-label">Neural Synthesis Results</span>
+                            <h2 className="text-5xl font-black text-foreground tracking-tighter uppercase leading-[0.9] ai-gradient-text">
+                              Mining Sequence <br /> Complete
+                            </h2>
+                            <div className="flex items-center gap-3 mt-4">
+                              <Badge className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest">
+                                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-2 inline-block" />
+                                Synchronized
+                              </Badge>
+                              <Badge className="bg-blue-500/10 text-blue-600 border-blue-500/20 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest">
+                                <Cpu className="w-3 h-3 mr-2 inline-block" />
+                                Layer_07 Active
+                              </Badge>
+                            </div>
+                          </div>
+
                           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                            <TabsList className="flex w-full bg-muted/30 p-2 rounded-[2rem] h-16 mb-10 overflow-x-auto no-scrollbar backdrop-blur-md border border-white/5 shadow-inner">
+                            <TabsList className="flex w-full bg-muted/50 p-2 rounded-[2.5rem] h-20 mb-12 overflow-x-auto no-scrollbar backdrop-blur-md border border-border shadow-inner">
                               {[
-                                { value: 'mining', label: 'Neural Mining', icon: <Database className="w-5 h-5" /> },
-                                { value: 'method', label: 'Methodology', icon: <Microscope className="w-5 h-5" /> },
-                                { value: 'findings', label: 'Key Findings', icon: <BarChart3 className="w-5 h-5" /> },
-                                { value: 'summary', label: 'Executive Summary', icon: <FileText className="w-5 h-5" /> },
-                                { value: 'source', label: 'Source Text', icon: <BookOpen className="w-5 h-5" /> },
+                                { value: 'mining', label: 'Neural Mining', icon: <Database className="w-6 h-6" /> },
+                                { value: 'method', label: 'Methodology', icon: <Microscope className="w-6 h-6" /> },
+                                { value: 'findings', label: 'Key Findings', icon: <BarChart3 className="w-6 h-6" /> },
+                                { value: 'summary', label: 'Executive Summary', icon: <FileText className="w-6 h-6" /> },
+                                { value: 'source', label: 'Source Text', icon: <BookOpen className="w-6 h-6" /> },
                               ].map((tab) => (
                                 <TabsTrigger 
                                   key={tab.value}
                                   value={tab.value} 
-                                  className="flex-1 min-w-[140px] rounded-2xl data-[state=active]:bg-card data-[state=active]:text-primary data-[state=active]:shadow-md transition-all font-black text-sm uppercase tracking-widest flex items-center gap-3 btn-3d"
+                                  className="flex-1 min-w-[160px] rounded-[1.8rem] data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-2xl transition-all font-black text-xs uppercase tracking-[0.2em] flex items-center gap-4 h-full"
                                 >
                                   {tab.icon}
                                   <span>{tab.label}</span>
@@ -717,26 +749,26 @@ export default function App() {
                               <TabsContent value="mining" className="mt-0 space-y-10">
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                   {[
-                                    { title: 'AI Models', items: analysis?.dataMining.modelsUsed, icon: <Cpu className="w-6 h-6 text-blue-600" />, bg: 'bg-blue-50', desc: 'Neural architectures utilized' },
-                                    { title: 'Database Sources', items: analysis?.dataMining.datasets, icon: <Layers className="w-6 h-6 text-purple-600" />, bg: 'bg-purple-50', desc: 'Training & validation sets' },
-                                    { title: 'Performance Metrics', items: analysis?.dataMining.metrics, icon: <BarChart3 className="w-6 h-6 text-pink-600" />, bg: 'bg-pink-50', desc: 'Statistical benchmarks' },
+                                    { title: 'AI Models', items: analysis?.dataMining.modelsUsed, icon: <Cpu className="w-6 h-6 text-blue-600" />, bg: 'bg-blue-500/10', desc: 'Neural architectures utilized' },
+                                    { title: 'Database Sources', items: analysis?.dataMining.datasets, icon: <Layers className="w-6 h-6 text-purple-600" />, bg: 'bg-purple-500/10', desc: 'Training & validation sets' },
+                                    { title: 'Performance Metrics', items: analysis?.dataMining.metrics, icon: <BarChart3 className="w-6 h-6 text-pink-600" />, bg: 'bg-pink-500/10', desc: 'Statistical benchmarks' },
                                   ].map((box, i) => (
-                                    <Card key={i} className="border-none shadow-xl bg-white rounded-[2.5rem] overflow-hidden group/box hover:-translate-y-2 transition-all duration-500">
-                                      <CardHeader className={`${box.bg} py-6 px-8 border-b border-gray-100`}>
+                                    <Card key={i} className="border-none shadow-xl bg-card rounded-[2.5rem] overflow-hidden group/box hover:-translate-y-2 transition-all duration-500">
+                                      <CardHeader className={`${box.bg} py-6 px-8 border-b border-border`}>
                                         <div className="flex items-center gap-4">
-                                          <div className="p-2.5 bg-white rounded-xl shadow-sm">{box.icon}</div>
+                                          <div className="p-2.5 bg-background rounded-xl shadow-sm">{box.icon}</div>
                                           <div>
-                                            <CardTitle className="text-sm font-black uppercase tracking-[0.2em] text-gray-900">
+                                            <CardTitle className="text-sm font-black uppercase tracking-[0.2em] text-foreground">
                                               {box.title}
                                             </CardTitle>
-                                            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-0.5">{box.desc}</p>
+                                            <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-0.5">{box.desc}</p>
                                           </div>
                                         </div>
                                       </CardHeader>
                                       <CardContent className="p-8">
                                         <div className="flex flex-wrap gap-3">
                                           {box.items?.map((item, j) => (
-                                            <Badge key={j} variant="secondary" className="bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 border-gray-200 font-bold px-5 py-2 rounded-xl transition-all">
+                                            <Badge key={j} variant="secondary" className="bg-muted hover:bg-muted/80 text-sm text-foreground border-border font-bold px-5 py-2 rounded-xl transition-all">
                                               {item}
                                             </Badge>
                                           ))}
@@ -746,21 +778,24 @@ export default function App() {
                                   ))}
                                 </div>
                                 
-                                <Card className="border-none shadow-lg glass-card rounded-[3rem] overflow-hidden">
-                                  <CardHeader className="p-12 pb-8 flex flex-row items-center justify-between">
-                                    <CardTitle className="text-2xl font-black uppercase tracking-tighter flex items-center gap-4">
-                                      <div className="p-3 bg-amber-500/20 rounded-2xl">
-                                        <Lightbulb className="w-8 h-8 text-amber-500" />
-                                      </div>
-                                      Key Intelligence Insights
-                                    </CardTitle>
+                                <Card className="border-none shadow-2xl bg-card rounded-[3.5rem] overflow-hidden">
+                                  <CardHeader className="p-12 pb-8 flex flex-row items-center justify-between bg-amber-500/10 border-b border-amber-500/20">
+                                    <div>
+                                      <span className="section-label text-amber-600/60">Cognitive Extraction</span>
+                                      <CardTitle className="text-4xl font-black uppercase tracking-tighter flex items-center gap-5 text-foreground">
+                                        <div className="p-4 bg-amber-500 rounded-2xl shadow-lg shadow-amber-200">
+                                          <Lightbulb className="w-10 h-10 text-white" />
+                                        </div>
+                                        Key Intelligence Insights
+                                      </CardTitle>
+                                    </div>
                                   </CardHeader>
-                                  <CardContent className="p-12 pt-0">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                  <CardContent className="p-12">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                       {analysis?.keyInsights.map((insight, i) => (
                                         <div 
                                           key={i} 
-                                          className="flex flex-col gap-5 p-8 bg-amber-500/5 rounded-[2rem] border border-amber-500/10 group/insight cursor-pointer hover:bg-amber-500/10 transition-all hover:-translate-y-2 shadow-sm"
+                                          className="flex flex-col gap-6 p-10 bg-card rounded-[2.5rem] border border-border group/insight cursor-pointer hover:border-amber-500/30 hover:bg-amber-500/5 transition-all hover:-translate-y-2 shadow-sm hover:shadow-xl"
                                           onClick={() => {
                                             if (analysis?.quotes.insights[i]) {
                                               setHighlightedQuote(analysis.quotes.insights[i]);
@@ -769,13 +804,15 @@ export default function App() {
                                             }
                                           }}
                                         >
-                                          <div className="flex gap-5">
-                                            <div className="mt-1.5 flex-shrink-0">
-                                              <CheckCircle2 className="w-6 h-6 text-amber-500" />
+                                          <div className="flex gap-6">
+                                            <div className="mt-2 flex-shrink-0">
+                                              <div className="w-10 h-10 bg-amber-500/10 rounded-xl flex items-center justify-center">
+                                                <CheckCircle2 className="w-6 h-6 text-amber-600" />
+                                              </div>
                                             </div>
-                                            <p className="text-xl text-foreground font-medium leading-relaxed tracking-tight">{insight}</p>
+                                            <p className="text-2xl text-foreground font-bold leading-relaxed tracking-tight">{insight}</p>
                                           </div>
-                                          <div className="flex items-center gap-2 text-sm font-bold text-amber-600 uppercase tracking-widest opacity-0 group-hover/insight:opacity-100 transition-all translate-x-[-10px] group-hover:translate-x-0">
+                                          <div className="flex items-center gap-3 text-xs font-black text-amber-600 uppercase tracking-[0.3em] opacity-0 group-hover/insight:opacity-100 transition-all translate-x-[-10px] group-hover:translate-x-0 ml-16">
                                             <Target className="w-5 h-5" /> View Source Reference
                                           </div>
                                         </div>
@@ -795,18 +832,18 @@ export default function App() {
                                 </div>
                                 <div>
                                   <span className="section-label">Procedural Analysis & Framework</span>
-                                  <CardTitle className="text-3xl font-black uppercase tracking-tight text-gray-900">Research Methodology</CardTitle>
+                                  <CardTitle className="text-3xl font-black uppercase tracking-tight text-foreground">Research Methodology</CardTitle>
                                 </div>
                               </div>
                             </CardHeader>
                             <CardContent className="p-12 pt-0 space-y-12">
-                              <div className="scholarly-border pl-10 py-4 bg-gray-50/50 rounded-r-[2rem]">
+                              <div className="scholarly-border pl-10 py-4 bg-muted/50 rounded-r-[2rem]">
                                 <p className="scholarly-text text-3xl">
                                   {analysis?.methodology}
                                 </p>
                               </div>
                               
-                              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pt-10 border-t border-gray-100">
+                              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pt-10 border-t border-border">
                                 <div className="space-y-6 flex-1">
                                   <span className="section-label">Identified Constraints</span>
                                   <div className="flex flex-wrap gap-4">
@@ -821,7 +858,7 @@ export default function App() {
                                 <Button 
                                   variant="outline" 
                                   size="lg" 
-                                  className="rounded-2xl border-blue-200 bg-white text-blue-700 hover:bg-blue-50 font-black uppercase tracking-widest px-10 h-16 shadow-xl hover:shadow-2xl transition-all"
+                                  className="rounded-2xl border-primary/20 bg-card text-primary hover:bg-primary/5 font-black uppercase tracking-widest px-10 h-16 shadow-xl hover:shadow-2xl transition-all"
                                   onClick={() => {
                                     if (analysis?.quotes.methodology) {
                                       setHighlightedQuote(analysis.quotes.methodology);
@@ -839,21 +876,21 @@ export default function App() {
 
                         <TabsContent value="findings" className="mt-0">
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                            <Card className="border-none shadow-2xl bg-white rounded-[3.5rem] p-12 space-y-10">
+                            <Card className="border-none shadow-2xl bg-card rounded-[3.5rem] p-12 space-y-10">
                               <div className="flex items-center gap-5">
                                 <div className="p-4 bg-emerald-600 rounded-2xl shadow-lg shadow-emerald-200">
                                   <CheckCircle2 className="w-8 h-8 text-white" />
                                 </div>
                                 <div>
                                   <span className="section-label">Validated Discoveries</span>
-                                  <h3 className="text-3xl font-black uppercase tracking-tight text-gray-900">Key Findings</h3>
+                                  <h3 className="text-3xl font-black uppercase tracking-tight text-foreground">Key Findings</h3>
                                 </div>
                               </div>
                               <div className="space-y-8">
                                 {analysis?.keyFindings.map((finding, i) => (
                                   <div 
                                     key={i} 
-                                    className="flex flex-col gap-6 p-8 bg-emerald-50/30 rounded-[2.5rem] border border-emerald-100 group/finding cursor-pointer hover:bg-emerald-50 transition-all hover:-translate-y-2 shadow-sm"
+                                    className="flex flex-col gap-6 p-8 bg-emerald-500/5 rounded-[2.5rem] border border-emerald-500/10 group/finding cursor-pointer hover:bg-emerald-500/10 transition-all hover:-translate-y-2 shadow-sm"
                                     onClick={() => {
                                       if (analysis?.quotes.findings[i]) {
                                         setHighlightedQuote(analysis.quotes.findings[i]);
@@ -866,7 +903,7 @@ export default function App() {
                                       <div className="w-12 h-12 bg-emerald-600 rounded-2xl flex items-center justify-center text-xl font-black text-white flex-shrink-0 shadow-md">
                                         {i + 1}
                                       </div>
-                                      <p className="text-xl text-gray-900 font-bold leading-relaxed tracking-tight">{finding}</p>
+                                      <p className="text-xl text-foreground font-bold leading-relaxed tracking-tight">{finding}</p>
                                     </div>
                                     <div className="flex items-center gap-2 text-sm font-black text-emerald-600 uppercase tracking-[0.2em] opacity-0 group-hover/finding:opacity-100 transition-all translate-x-[-10px] group-hover:translate-x-0 ml-18">
                                       <Target className="w-5 h-5" /> View Source Reference
@@ -876,23 +913,23 @@ export default function App() {
                               </div>
                             </Card>
                             
-                            <Card className="border-none shadow-2xl bg-white rounded-[3.5rem] p-12 space-y-10">
+                            <Card className="border-none shadow-2xl bg-card rounded-[3.5rem] p-12 space-y-10">
                               <div className="flex items-center gap-5">
                                 <div className="p-4 bg-red-600 rounded-2xl shadow-lg shadow-red-200">
                                   <Target className="w-8 h-8 text-white" />
                                 </div>
                                 <div>
                                   <span className="section-label">Identified Challenges</span>
-                                  <h3 className="text-3xl font-black uppercase tracking-tight text-gray-900">Critical Problems</h3>
+                                  <h3 className="text-3xl font-black uppercase tracking-tight text-foreground">Critical Problems</h3>
                                 </div>
                               </div>
                               <div className="space-y-8">
                                 {analysis?.problemStatements.map((problem, i) => (
-                                  <div key={i} className="flex gap-6 p-8 bg-red-50/30 rounded-[2.5rem] border border-red-100 hover:bg-red-50 transition-all shadow-sm">
+                                  <div key={i} className="flex gap-6 p-8 bg-red-500/5 rounded-[2.5rem] border border-red-500/10 hover:bg-red-500/10 transition-all shadow-sm">
                                     <div className="w-12 h-12 bg-red-600 rounded-2xl flex items-center justify-center text-xl font-black text-white flex-shrink-0 shadow-md">
                                       {i + 1}
                                     </div>
-                                    <p className="text-xl text-gray-900 font-bold leading-relaxed tracking-tight">{problem}</p>
+                                    <p className="text-xl text-foreground font-bold leading-relaxed tracking-tight">{problem}</p>
                                   </div>
                                 ))}
                               </div>
@@ -909,13 +946,13 @@ export default function App() {
                                 </div>
                                 <div>
                                   <span className="section-label">High-Level Intelligence Overview</span>
-                                  <CardTitle className="text-3xl font-black uppercase tracking-tight text-gray-900">Executive Summary</CardTitle>
+                                  <CardTitle className="text-3xl font-black uppercase tracking-tight text-foreground">Executive Summary</CardTitle>
                                 </div>
                               </div>
                             </CardHeader>
                             <CardContent className="p-12 pt-0 space-y-16">
-                              <div className="relative p-10 bg-gray-50/50 rounded-[2.5rem] border border-gray-100">
-                                <Quote className="absolute -top-6 -left-6 w-16 h-16 text-indigo-100 -z-10" />
+                              <div className="relative p-10 bg-muted/50 rounded-[2.5rem] border border-border">
+                                <Quote className="absolute -top-6 -left-6 w-16 h-16 text-primary/10 -z-10" />
                                 <p className="scholarly-text text-4xl leading-tight tracking-tight">
                                   {analysis?.summary}
                                 </p>
@@ -927,14 +964,14 @@ export default function App() {
                                 </div>
                                 <div className="relative z-10 space-y-10">
                                   <div className="flex items-center gap-5">
-                                    <div className="p-3 bg-white/20 rounded-2xl backdrop-blur-md">
+                                    <div className="p-3 bg-white/10 rounded-2xl backdrop-blur-md">
                                       <ArrowRight className="w-8 h-8" />
                                     </div>
                                     <h4 className="text-2xl font-black uppercase tracking-[0.2em]">Future Research Trajectories</h4>
                                   </div>
                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     {analysis?.futureDirections.map((dir, i) => (
-                                      <div key={i} className="bg-white/10 backdrop-blur-xl p-8 rounded-2xl border border-white/20 text-lg font-bold tracking-tight hover:bg-white/20 transition-all cursor-default shadow-sm">
+                                      <div key={i} className="bg-white/5 backdrop-blur-xl p-8 rounded-2xl border border-white/10 text-lg font-bold tracking-tight hover:bg-white/10 transition-all cursor-default shadow-sm">
                                         {dir}
                                       </div>
                                     ))}
@@ -947,14 +984,14 @@ export default function App() {
 
                         <TabsContent value="source" className="mt-0">
                           <Card className="border-none paper-texture rounded-[3.5rem] overflow-hidden h-[800px] flex flex-col">
-                            <CardHeader className="p-12 border-b border-gray-100 flex flex-row items-center justify-between shrink-0 bg-white/50 backdrop-blur-md">
+                            <CardHeader className="p-12 border-b border-border flex flex-row items-center justify-between shrink-0 bg-card/50 backdrop-blur-md">
                               <div className="flex items-center gap-5">
                                 <div className="bg-purple-600 p-4 rounded-2xl shadow-lg shadow-purple-200">
                                   <BookOpen className="w-8 h-8 text-white" />
                                 </div>
                                 <div>
                                   <span className="section-label">Verbatim Content from PDF</span>
-                                  <CardTitle className="text-3xl font-black uppercase tracking-tight text-gray-900">Extracted Source Text</CardTitle>
+                                  <CardTitle className="text-3xl font-black uppercase tracking-tight text-foreground">Extracted Source Text</CardTitle>
                                 </div>
                               </div>
                               {highlightedQuote && (
@@ -978,9 +1015,17 @@ export default function App() {
                                           {part}
                                           {i < arr.length - 1 && (
                                             <motion.mark 
-                                              initial={{ backgroundColor: 'rgba(234, 179, 8, 0)' }}
-                                              animate={{ backgroundColor: 'rgba(234, 179, 8, 0.3)' }}
-                                              className="rounded px-1 border-b-2 border-amber-500 font-bold text-foreground"
+                                              initial={{ backgroundColor: 'rgba(234, 179, 8, 0.15)', boxShadow: '0 0 0px rgba(234, 179, 8, 0)' }}
+                                              animate={{ 
+                                                backgroundColor: ['rgba(234, 179, 8, 0.15)', 'rgba(234, 179, 8, 0.3)', 'rgba(234, 179, 8, 0.15)'],
+                                                boxShadow: ['0 0 0px rgba(234, 179, 8, 0)', '0 0 15px rgba(234, 179, 8, 0.4)', '0 0 0px rgba(234, 179, 8, 0)'],
+                                              }}
+                                              transition={{ 
+                                                duration: 3, 
+                                                repeat: Infinity, 
+                                                ease: "easeInOut" 
+                                              }}
+                                              className="rounded-md px-1.5 py-0.5 border-b border-amber-500/50 font-bold text-foreground inline-block transition-colors"
                                             >
                                               {highlightedQuote}
                                             </motion.mark>
@@ -1009,7 +1054,7 @@ export default function App() {
     </main>
 
         {/* Footer */}
-        <footer className="py-12 border-t border-gray-100 mt-20">
+        <footer className="py-12 border-t border-border mt-20">
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="flex items-center gap-3">
@@ -1019,16 +1064,43 @@ export default function App() {
                 <span className="text-sm font-bold text-foreground">Data mine AI</span>
               </div>
               <div className="flex items-center gap-8">
-                <a href="#" className="text-xs font-bold text-gray-500 uppercase tracking-widest hover:text-gray-900 transition-colors">Documentation</a>
-                <a href="#" className="text-xs font-bold text-gray-500 uppercase tracking-widest hover:text-gray-900 transition-colors">Privacy</a>
-                <a href="#" className="text-xs font-bold text-gray-500 uppercase tracking-widest hover:text-gray-900 transition-colors">API</a>
+                <a href="#" className="text-xs font-bold text-muted-foreground uppercase tracking-widest hover:text-foreground transition-colors">Documentation</a>
+                <a href="#" className="text-xs font-bold text-muted-foreground uppercase tracking-widest hover:text-foreground transition-colors">Privacy</a>
+                <a href="#" className="text-xs font-bold text-muted-foreground uppercase tracking-widest hover:text-foreground transition-colors">API</a>
               </div>
-              <p className="text-xs text-gray-500 font-mono uppercase tracking-[0.2em]">
-                &copy; 2024 Research Intelligence Lab
+              <p className="text-xs text-muted-foreground font-mono uppercase tracking-[0.2em]">
+                &copy; 2026 Neural Mining Clusters &bull; All Rights Reserved
               </p>
             </div>
           </div>
         </footer>
+        {/* System Status Bar */}
+        <div className="fixed bottom-0 left-0 w-full bg-background/80 backdrop-blur-2xl border-t border-border z-50 py-2 px-6 hidden md:block">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <div className="flex items-center gap-8">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Neural Core Online</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Database className="w-3 h-3 text-primary" />
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Syncing Layer_07</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Cpu className="w-3 h-3 text-primary" />
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">12.4 TFLOPS</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-6">
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/40">Secure Neural Interface v1.6.0</span>
+              <div className="flex items-center gap-2">
+                <div className="w-1 h-1 rounded-full bg-primary/40" />
+                <div className="w-1 h-1 rounded-full bg-primary/40" />
+                <div className="w-1 h-1 rounded-full bg-primary" />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </TooltipProvider>
   );
